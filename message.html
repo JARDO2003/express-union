@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Express Exchange - Messages</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
     <style>
         * {
             margin: 0;
@@ -60,6 +61,37 @@
             background-clip: text;
             margin-bottom: 20px;
             text-align: center;
+        }
+
+        .notification-status {
+            background: #1a1a1a;
+            border: 1px solid #262626;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notification-toggle {
+            background: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .notification-toggle:hover {
+            background: #1877f2;
+        }
+
+        .notification-toggle.disabled {
+            background: #404040;
+            cursor: not-allowed;
         }
 
         .search-container {
@@ -175,7 +207,7 @@
         }
 
         .unread-badge {
-            background: #0095f6;
+            background: #ff3040;
             color: white;
             border-radius: 50%;
             min-width: 24px;
@@ -187,6 +219,13 @@
             font-weight: bold;
             margin-left: 12px;
             padding: 0 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 48, 64, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 48, 64, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 48, 64, 0); }
         }
 
         /* Chat view - Plein écran avec overlay */
@@ -487,6 +526,107 @@
             max-width: 300px;
         }
 
+        /* Notification Toast */
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1a1a1a;
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 16px;
+            max-width: 350px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification-toast.show {
+            transform: translateX(0);
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .notification-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 12px;
+        }
+
+        .notification-info h4 {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .notification-time {
+            color: #8e8e8e;
+            font-size: 12px;
+        }
+
+        .notification-message {
+            color: #ffffff;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-left: 44px;
+        }
+
+        .notification-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: #8e8e8e;
+            cursor: pointer;
+            font-size: 16px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .notification-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        /* Badge de notification sur l'icône */
+        .notification-badge {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #ff3040;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            z-index: 10000;
+            animation: pulse 2s infinite;
+        }
+
         /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 6px;
@@ -560,6 +700,12 @@
             .message-input-container {
                 padding: 15px;
             }
+
+            .notification-toast {
+                max-width: 280px;
+                right: 10px;
+                top: 10px;
+            }
         }
     </style>
 </head>
@@ -569,6 +715,16 @@
         <div class="users-view" id="usersView">
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Messages</h2>
+                
+                <!-- Statut des notifications -->
+                <div class="notification-status">
+                    <div>
+                        <div style="font-size: 12px; color: #8e8e8e;">Notifications</div>
+                        <div style="font-size: 14px; color: #ffffff;" id="notificationStatus">Désactivées</div>
+                    </div>
+                    <button class="notification-toggle" id="notificationToggle">Activer</button>
+                </div>
+                
                 <div class="search-container">
                     <div class="search-icon">🔍</div>
                     <input type="text" class="search-input" placeholder="Rechercher des amis..." id="searchInput">
@@ -626,8 +782,11 @@
         </div>
     </div>
 
+    <!-- Badge de notification globale -->
+    <div class="notification-badge" id="globalNotificationBadge" style="display: none;">0</div>
+
     <script type="module">
-        console.log('💬 Initialisation Express Exchange Messages');
+        console.log('💬 Initialisation Express Exchange Messages avec Notifications');
 
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
         import { 
@@ -669,7 +828,7 @@
             storageBucket: "data-com-a94a8.appspot.com",
             messagingSenderId: "276904640935",
             appId: "1:276904640935:web:9cd805aeba6c34c767f682",
-            measurementId: "G-FYQCWY5G4S"
+            measurementId: "G-FYQCYW5G4S"
         };
 
         // Initialisation Firebase
@@ -683,8 +842,13 @@
         let filteredUsers = [];
         let currentChatUser = null;
         let messagesUnsubscribe = null;
+        let globalMessagesListener = null;
         let typingTimeout = null;
         let lastActivity = Date.now();
+        let notificationsEnabled = false;
+        let notificationPermission = 'default';
+        let totalUnreadCount = 0;
+        let activeNotifications = new Map();
 
         // Éléments DOM
         const usersView = document.getElementById('usersView');
@@ -700,6 +864,9 @@
         const sendButton = document.getElementById('sendButton');
         const typingIndicator = document.getElementById('typingIndicator');
         const typingUserName = document.getElementById('typingUserName');
+        const notificationToggle = document.getElementById('notificationToggle');
+        const notificationStatus = document.getElementById('notificationStatus');
+        const globalNotificationBadge = document.getElementById('globalNotificationBadge');
 
         // Fonction pour récupérer les données utilisateur
         function getCurrentUser() {
@@ -741,6 +908,317 @@
             return [cleanId1, cleanId2].sort().join('_to_');
         }
 
+        // ============ SYSTÈME DE NOTIFICATIONS ============
+
+        // Demande de permission pour les notifications
+        async function requestNotificationPermission() {
+            if (!('Notification' in window)) {
+                console.warn('⚠️ Les notifications ne sont pas supportées par ce navigateur');
+                return false;
+            }
+
+            if (Notification.permission === 'granted') {
+                notificationPermission = 'granted';
+                return true;
+            }
+
+            if (Notification.permission === 'denied') {
+                console.warn('⚠️ Les notifications ont été refusées par l\'utilisateur');
+                notificationPermission = 'denied';
+                return false;
+            }
+
+            try {
+                const permission = await Notification.requestPermission();
+                notificationPermission = permission;
+                
+                if (permission === 'granted') {
+                    console.log('✅ Permission pour les notifications accordée');
+                    return true;
+                } else {
+                    console.warn('⚠️ Permission pour les notifications refusée');
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ Erreur lors de la demande de permission:', error);
+                return false;
+            }
+        }
+
+        // Activation/désactivation des notifications
+        async function toggleNotifications() {
+            if (!notificationsEnabled) {
+                const granted = await requestNotificationPermission();
+                if (granted) {
+                    notificationsEnabled = true;
+                    localStorage.setItem('expressExchangeNotifications', 'true');
+                    notificationStatus.textContent = 'Activées';
+                    notificationToggle.textContent = 'Désactiver';
+                    
+                    // Démarrer l'écoute des nouveaux messages
+                    startGlobalMessageListener();
+                    
+                    console.log('🔔 Notifications activées');
+                } else {
+                    alert('Les notifications n\'ont pas pu être activées. Vérifiez les paramètres de votre navigateur.');
+                }
+            } else {
+                notificationsEnabled = false;
+                localStorage.setItem('expressExchangeNotifications', 'false');
+                notificationStatus.textContent = 'Désactivées';
+                notificationToggle.textContent = 'Activer';
+                
+                // Arrêter l'écoute des nouveaux messages
+                stopGlobalMessageListener();
+                
+                console.log('🔕 Notifications désactivées');
+            }
+        }
+
+        // Affichage d'une notification
+        function showNotification(title, body, icon, data = {}) {
+            if (!notificationsEnabled || notificationPermission !== 'granted') {
+                return;
+            }
+
+            // Vérifier si l'utilisateur est actif sur la page
+            if (document.visibilityState === 'visible' && Date.now() - lastActivity < 5000) {
+                // Utilisateur actif, montrer juste un toast
+                showNotificationToast(title, body, data);
+                return;
+            }
+
+            try {
+                const notification = new Notification(title, {
+                    body: body,
+                    icon: icon || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💬</text></svg>',
+                    badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💬</text></svg>',
+                    tag: data.senderId || 'message',
+                    requireInteraction: false,
+                    silent: false,
+                    data: data
+                });
+
+                // Fermer automatiquement après 5 secondes
+                setTimeout(() => {
+                    notification.close();
+                }, 5000);
+
+                // Gérer le clic sur la notification
+                notification.onclick = function(event) {
+                    event.preventDefault();
+                    window.focus();
+                    
+                    if (data.senderId && data.senderId !== currentUser?.id) {
+                        const user = allUsers.find(u => u.id === data.senderId);
+                        if (user) {
+                            openChat(user);
+                        }
+                    }
+                    
+                    notification.close();
+                };
+
+                // Stocker la notification active
+                activeNotifications.set(data.senderId || 'default', notification);
+
+                console.log('🔔 Notification affichée:', title);
+            } catch (error) {
+                console.error('❌ Erreur affichage notification:', error);
+                // Fallback vers le toast
+                showNotificationToast(title, body, data);
+            }
+        }
+
+        // Toast de notification in-app
+        function showNotificationToast(title, body, data = {}) {
+            const existingToast = document.querySelector('.notification-toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'notification-toast';
+            
+            const user = allUsers.find(u => u.id === data.senderId);
+            const avatar = user?.avatar || user?.fullName?.charAt(0).toUpperCase() || 'U';
+            
+            toast.innerHTML = `
+                <button class="notification-close">×</button>
+                <div class="notification-header">
+                    <div class="notification-avatar">${avatar}</div>
+                    <div class="notification-info">
+                        <h4>${escapeHtml(title)}</h4>
+                        <div class="notification-time">À l'instant</div>
+                    </div>
+                </div>
+                <div class="notification-message">${escapeHtml(body)}</div>
+            `;
+
+            document.body.appendChild(toast);
+
+            // Animation d'entrée
+            setTimeout(() => toast.classList.add('show'), 100);
+
+            // Gestion du clic sur fermer
+            toast.querySelector('.notification-close').onclick = () => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            };
+
+            // Gestion du clic sur la notification
+            toast.onclick = (e) => {
+                if (e.target.classList.contains('notification-close')) return;
+                
+                if (data.senderId && data.senderId !== currentUser?.id) {
+                    const user = allUsers.find(u => u.id === data.senderId);
+                    if (user) {
+                        openChat(user);
+                    }
+                }
+                
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            };
+
+            // Fermer automatiquement après 4 secondes
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 4000);
+        }
+
+        // Écoute globale des nouveaux messages
+        function startGlobalMessageListener() {
+            if (!currentUser || globalMessagesListener) return;
+
+            console.log('🎧 Démarrage écoute globale des messages...');
+
+            // Écouter tous les messages où l'utilisateur actuel est le destinataire
+            const allConversationsRef = ref(rtdb, 'conversations');
+            
+            globalMessagesListener = onValue(allConversationsRef, (snapshot) => {
+                if (!snapshot.exists()) return;
+
+                snapshot.forEach((conversationSnapshot) => {
+                    const conversationId = conversationSnapshot.key;
+                    const conversationData = conversationSnapshot.val();
+                    
+                    // Vérifier si cette conversation concerne l'utilisateur actuel
+                    if (!conversationData.meta || 
+                        !conversationData.meta.participants || 
+                        !conversationData.meta.participants.includes(currentUser.id)) {
+                        return;
+                    }
+
+                    // Écouter les nouveaux messages de cette conversation
+                    if (conversationData.messages) {
+                        Object.entries(conversationData.messages).forEach(([messageId, message]) => {
+                            // Vérifier si c'est un nouveau message pour l'utilisateur actuel
+                            if (message.receiverId === currentUser.id && 
+                                !message.read && 
+                                message.senderId !== currentUser.id) {
+                                
+                                // Vérifier si ce message n'a pas déjà été notifié
+                                const notificationKey = `${conversationId}_${messageId}`;
+                                const lastNotified = localStorage.getItem('lastNotified');
+                                
+                                if (!lastNotified || !lastNotified.includes(notificationKey)) {
+                                    const sender = allUsers.find(u => u.id === message.senderId);
+                                    const senderName = sender?.fullName || message.senderName || 'Utilisateur';
+                                    
+                                    showNotification(
+                                        `Nouveau message de ${senderName}`,
+                                        message.text,
+                                        null,
+                                        {
+                                            senderId: message.senderId,
+                                            conversationId: conversationId,
+                                            messageId: messageId
+                                        }
+                                    );
+
+                                    // Jouer un son de notification
+                                    playNotificationSound();
+
+                                    // Marquer comme notifié
+                                    const notifiedMessages = lastNotified ? lastNotified.split(',') : [];
+                                    notifiedMessages.push(notificationKey);
+                                    localStorage.setItem('lastNotified', notifiedMessages.slice(-100).join(','));
+                                }
+                            }
+                        });
+                    }
+                });
+
+                // Mettre à jour le compteur global
+                updateGlobalUnreadCount();
+            });
+        }
+
+        // Arrêter l'écoute globale
+        function stopGlobalMessageListener() {
+            if (globalMessagesListener) {
+                off(ref(rtdb, 'conversations'));
+                globalMessagesListener = null;
+                console.log('🔇 Arrêt écoute globale des messages');
+            }
+        }
+
+        // Son de notification
+        function playNotificationSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.1);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } catch (error) {
+                console.warn('⚠️ Impossible de jouer le son de notification:', error);
+            }
+        }
+
+        // Mise à jour du compteur global de messages non lus
+        async function updateGlobalUnreadCount() {
+            if (!currentUser) return;
+
+            let totalUnread = 0;
+
+            for (const user of allUsers) {
+                const unreadCount = await getUnreadCount(user.id);
+                totalUnread += unreadCount;
+            }
+
+            totalUnreadCount = totalUnread;
+
+            if (totalUnread > 0) {
+                globalNotificationBadge.textContent = totalUnread > 99 ? '99+' : totalUnread;
+                globalNotificationBadge.style.display = 'flex';
+                
+                // Mettre à jour le titre de la page
+                document.title = `(${totalUnread}) Express Exchange - Messages`;
+            } else {
+                globalNotificationBadge.style.display = 'none';
+                document.title = 'Express Exchange - Messages';
+            }
+
+            // Mettre à jour les badges individuels
+            updateUnreadBadges();
+        }
+
         // Chargement des utilisateurs inscrits
         async function loadUsers() {
             try {
@@ -763,6 +1241,9 @@
                 console.log(`✅ ${allUsers.length} utilisateurs chargés`);
                 filteredUsers = [...allUsers];
                 renderUsers();
+                
+                // Mettre à jour le compteur après le chargement des utilisateurs
+                updateGlobalUnreadCount();
                 
             } catch (error) {
                 console.error('❌ Erreur chargement utilisateurs:', error);
@@ -1065,68 +1546,6 @@
             }
         }
 
-        // Gestion des événements
-        function setupEventListeners() {
-            // Recherche d'utilisateurs
-            searchInput.addEventListener('input', handleSearch);
-            
-            // Bouton fermer chat
-            closeChatBtn.addEventListener('click', closeChat);
-            
-            // Envoi de message avec Enter
-            messageInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                } else if (e.key === 'Enter' && e.shiftKey) {
-                    return;
-                }
-            });
-            
-            // Ajustement automatique de la hauteur du textarea
-            messageInput.addEventListener('input', () => {
-                adjustTextareaHeight();
-                handleTyping();
-                updateLastActivity();
-            });
-            
-            // Bouton d'envoi
-            sendButton.addEventListener('click', sendMessage);
-            
-            // Activation du bouton d'envoi selon le contenu
-            messageInput.addEventListener('input', () => {
-                sendButton.disabled = !messageInput.value.trim();
-            });
-            
-            // Gestion du retour avec la touche Échap
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && chatView.classList.contains('active')) {
-                    closeChat();
-                }
-            });
-            
-            // Mise à jour de l'activité lors des interactions
-            document.addEventListener('click', updateLastActivity);
-            document.addEventListener('keypress', updateLastActivity);
-            
-            // Gestion de la fermeture de la page
-            window.addEventListener('beforeunload', () => {
-                if (messagesUnsubscribe) {
-                    messagesUnsubscribe();
-                }
-            });
-        }
-
-        // Simulation de notifications de nouveaux messages
-        function simulateNotifications() {
-            setInterval(() => {
-                if (Math.random() > 0.95 && allUsers.length > 0) {
-                    const randomUser = allUsers[Math.floor(Math.random() * allUsers.length)];
-                    console.log('🔔 Simulation notification de:', randomUser.fullName);
-                }
-            }, 10000);
-        }
-
         // Marquer les messages comme lus
         async function markMessagesAsRead(userId, conversationId) {
             if (!currentUser || !userId) return;
@@ -1149,6 +1568,7 @@
                         if (Object.keys(updates).length > 0) {
                             update(ref(rtdb), updates).then(() => {
                                 console.log('✅ Messages marqués comme lus');
+                                updateGlobalUnreadCount();
                             }).catch((error) => {
                                 console.error('❌ Erreur marquage lecture:', error);
                             });
@@ -1217,6 +1637,97 @@
             }
         }
 
+        // Gestion des événements
+        function setupEventListeners() {
+            // Recherche d'utilisateurs
+            searchInput.addEventListener('input', handleSearch);
+            
+            // Bouton fermer chat
+            closeChatBtn.addEventListener('click', closeChat);
+            
+            // Toggle notifications
+            notificationToggle.addEventListener('click', toggleNotifications);
+            
+            // Envoi de message avec Enter
+            messageInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                } else if (e.key === 'Enter' && e.shiftKey) {
+                    return;
+                }
+            });
+            
+            // Ajustement automatique de la hauteur du textarea
+            messageInput.addEventListener('input', () => {
+                adjustTextareaHeight();
+                handleTyping();
+                updateLastActivity();
+            });
+            
+            // Bouton d'envoi
+            sendButton.addEventListener('click', sendMessage);
+            
+            // Activation du bouton d'envoi selon le contenu
+            messageInput.addEventListener('input', () => {
+                sendButton.disabled = !messageInput.value.trim();
+            });
+            
+            // Gestion du retour avec la touche Échap
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && chatView.classList.contains('active')) {
+                    closeChat();
+                }
+            });
+            
+            // Mise à jour de l'activité lors des interactions
+            document.addEventListener('click', updateLastActivity);
+            document.addEventListener('keypress', updateLastActivity);
+            
+            // Gestion de la visibilité de la page
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    updateLastActivity();
+                    updateGlobalUnreadCount();
+                }
+            });
+            
+            // Gestion de la fermeture de la page
+            window.addEventListener('beforeunload', () => {
+                if (messagesUnsubscribe) {
+                    messagesUnsubscribe();
+                }
+                stopGlobalMessageListener();
+            });
+        }
+
+        // Initialisation des paramètres de notification
+        function initializeNotificationSettings() {
+            const savedSetting = localStorage.getItem('expressExchangeNotifications');
+            
+            if (savedSetting === 'true') {
+                notificationsEnabled = true;
+                notificationStatus.textContent = 'Activées';
+                notificationToggle.textContent = 'Désactiver';
+                
+                // Vérifier la permission
+                if (Notification.permission === 'granted') {
+                    notificationPermission = 'granted';
+                    startGlobalMessageListener();
+                } else {
+                    // La permission a été révoquée, réinitialiser
+                    notificationsEnabled = false;
+                    localStorage.setItem('expressExchangeNotifications', 'false');
+                    notificationStatus.textContent = 'Désactivées';
+                    notificationToggle.textContent = 'Activer';
+                }
+            } else {
+                notificationsEnabled = false;
+                notificationStatus.textContent = 'Désactivées';
+                notificationToggle.textContent = 'Activer';
+            }
+        }
+
         // Fonction de débogage
         window.debugMessages = function() {
             console.log('🔧 État de l\'application Messages:', {
@@ -1225,7 +1736,11 @@
                 allUsersCount: allUsers.length,
                 filteredUsersCount: filteredUsers.length,
                 hasMessagesListener: !!messagesUnsubscribe,
-                chatViewActive: chatView.classList.contains('active')
+                hasGlobalListener: !!globalMessagesListener,
+                chatViewActive: chatView.classList.contains('active'),
+                notificationsEnabled: notificationsEnabled,
+                notificationPermission: notificationPermission,
+                totalUnreadCount: totalUnreadCount
             });
         };
 
@@ -1245,15 +1760,23 @@
                 messagesUnsubscribe = null;
             }
             
+            stopGlobalMessageListener();
+            
             if (typingTimeout) {
                 clearTimeout(typingTimeout);
                 typingTimeout = null;
             }
+
+            // Fermer toutes les notifications actives
+            activeNotifications.forEach(notification => {
+                notification.close();
+            });
+            activeNotifications.clear();
         }
 
         // Initialisation de l'application Messages
         async function initializeMessagesApp() {
-            console.log('🚀 Initialisation Express Exchange Messages...');
+            console.log('🚀 Initialisation Express Exchange Messages avec Notifications...');
             
             currentUser = getCurrentUser();
             if (!currentUser) {
@@ -1263,10 +1786,10 @@
             console.log('👤 Utilisateur connecté:', currentUser.fullName);
             
             setupEventListeners();
+            initializeNotificationSettings();
             await loadUsers();
-            await updateUnreadBadges();
+            await updateGlobalUnreadCount();
             
-            simulateNotifications();
             updateLastActivity();
             
             console.log('✅ Express Exchange Messages initialisé avec succès');
@@ -1294,7 +1817,7 @@
             window.location.href = './index.html';
         };
 
-        console.log('💬 Script Express Exchange Messages chargé');
+        console.log('💬 Script Express Exchange Messages avec Notifications chargé');
     </script>
 
     <!-- Bouton de retour à la page principale -->
@@ -1314,5 +1837,71 @@
             ← Retour
         </button>
     </div>
+
+    <!-- Service Worker pour les notifications en arrière-plan -->
+    <script>
+        // Enregistrement du Service Worker pour les notifications hors ligne
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
+                self.addEventListener('push', function(event) {
+                    if (event.data) {
+                        const data = event.data.json();
+                        const options = {
+                            body: data.body,
+                            icon: data.icon || '/icon-192.png',
+                            badge: '/badge-72.png',
+                            tag: data.tag || 'message',
+                            requireInteraction: false,
+                            actions: [
+                                {
+                                    action: 'reply',
+                                    title: 'Répondre',
+                                    icon: '/reply-icon.png'
+                                },
+                                {
+                                    action: 'view',
+                                    title: 'Voir',
+                                    icon: '/view-icon.png'
+                                }
+                            ],
+                            data: data.data
+                        };
+
+                        event.waitUntil(
+                            self.registration.showNotification(data.title, options)
+                        );
+                    }
+                });
+
+                self.addEventListener('notificationclick', function(event) {
+                    event.notification.close();
+
+                    if (event.action === 'reply') {
+                        // Ouvrir une interface de réponse rapide
+                        event.waitUntil(
+                            clients.openWindow('/messages.html?action=reply&user=' + event.notification.data.senderId)
+                        );
+                    } else if (event.action === 'view' || !event.action) {
+                        // Ouvrir la conversation
+                        event.waitUntil(
+                            clients.openWindow('/messages.html?user=' + event.notification.data.senderId)
+                        );
+                    }
+                });
+
+                self.addEventListener('message', function(event) {
+                    if (event.data && event.data.type === 'SKIP_WAITING') {
+                        self.skipWaiting();
+                    }
+                });
+            `))
+            .then(function(registration) {
+                console.log('✅ Service Worker enregistré:', registration.scope);
+            })
+            .catch(function(error) {
+                console.warn('⚠️ Erreur enregistrement Service Worker:', error);
+            });
+        }
+    </script>
 </body>
 </html>
