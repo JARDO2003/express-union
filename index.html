@@ -56,7 +56,205 @@
             }
         }
 
-        /* LOADING SPINNER AMÉLIORÉ */
+        /* BARRE DE PROGRESSION UPLOAD STYLE TIKTOK */
+        .upload-progress-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            backdrop-filter: blur(10px);
+        }
+
+        .upload-progress-container {
+            background: #1a1a1a;
+            border: 1px solid #333333;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: uploadPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes uploadPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .upload-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .upload-subtitle {
+            color: #8e8e8e;
+            font-size: 14px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        /* BARRE DE PROGRESSION CIRCULAIRE */
+        .circular-progress {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+        }
+
+        .circular-progress svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle-bg {
+            fill: none;
+            stroke: #262626;
+            stroke-width: 8;
+        }
+
+        .progress-circle {
+            fill: none;
+            stroke: url(#progressGradient);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.3s ease;
+        }
+
+        .progress-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* BARRE DE PROGRESSION LINÉAIRE */
+        .linear-progress {
+            width: 100%;
+            height: 6px;
+            background: #262626;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .linear-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ff8e8e, #ff6b6b);
+            background-size: 200% 100%;
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.3s ease;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .upload-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .upload-speed {
+            color: #0095f6;
+            font-weight: 500;
+        }
+
+        .upload-eta {
+            color: #8e8e8e;
+        }
+
+        .upload-size {
+            color: #ffffff;
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .upload-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            border: 2px solid #333333;
+        }
+
+        .upload-preview img,
+        .upload-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-cancel-btn {
+            background: transparent;
+            color: #ed4956;
+            padding: 12px 24px;
+            border: 1px solid #ed4956;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .upload-cancel-btn:hover {
+            background: rgba(237, 73, 86, 0.1);
+        }
+
+        /* ÉTATS DE SUCCÈS/ERREUR */
+        .upload-success {
+            color: #00d4aa;
+        }
+
+        .upload-error {
+            color: #ed4956;
+        }
+
+        .upload-complete-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        /* LOADING SPINNER */
         .main-loading-container {
             display: flex;
             flex-direction: column;
@@ -261,6 +459,7 @@
             font-size: 14px;
         }
 
+        /* OVERLAY D'INSCRIPTION */
         #registrationOverlay {
             position: fixed;
             top: 0;
@@ -360,6 +559,7 @@
             cursor: not-allowed;
         }
 
+        /* APP PRINCIPALE */
         #mainApp {
             display: none;
             position: relative;
@@ -413,6 +613,7 @@
             border-color: #ed4956;
         }
 
+        /* PUBLISHER */
         .publisher {
             background: #000000;
             border-bottom: 1px solid #262626;
@@ -447,6 +648,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .file-input-label {
@@ -472,6 +674,60 @@
 
         .media-preview {
             margin: 15px 0;
+        }
+
+        .video-preview {
+            position: relative;
+            max-width: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-preview video {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .video-duration.warning {
+            background: rgba(237, 73, 86, 0.9);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .video-processing {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .processing-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid #0095f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
         .publish-controls {
@@ -537,6 +793,7 @@
             background: #404040;
         }
 
+        /* FEED */
         .feed {
             display: flex;
             flex-direction: column;
@@ -548,6 +805,7 @@
             padding: 16px 0;
             transition: background-color 0.2s ease;
             animation: fadeInPost 0.3s ease-out;
+            position: relative;
         }
 
         .publication:hover {
@@ -610,6 +868,174 @@
             padding: 0 16px;
         }
 
+        /* VIDÉO CONTAINER - STYLE TIKTOK */
+        .video-container {
+            position: relative;
+            margin-bottom: 12px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .video-play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: auto;
+        }
+
+        .video-container.paused .video-play-overlay {
+            opacity: 1;
+        }
+
+        .video-play-overlay:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: rgba(0, 149, 246, 0.8);
+        }
+
+        .video-duration-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .video-auto-play-indicator {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(237, 73, 86, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-auto-play-indicator.show {
+            opacity: 1;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 20px 16px 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: auto;
+        }
+
+        .video-container:hover .video-controls {
+            opacity: 1;
+        }
+
+        .video-progress {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .video-progress-bar {
+            height: 100%;
+            background: #0095f6;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .video-controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .video-play-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+
+        .video-play-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .video-time {
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .video-volume-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+
+        .video-volume-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* IMAGES */
         .image-link {
             display: block;
             margin-bottom: 12px;
@@ -628,6 +1054,7 @@
             opacity: 0.9;
         }
 
+        /* ACTIONS */
         .pub-actions {
             display: flex;
             gap: 16px;
@@ -662,6 +1089,7 @@
             cursor: not-allowed;
         }
 
+        /* COMMENTAIRES */
         .comments-section {
             margin-top: 8px;
             padding: 0 16px;
@@ -760,6 +1188,7 @@
             background: rgba(0, 149, 246, 0.1);
         }
 
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -826,83 +1255,6 @@
             margin-right: 8px;
         }
 
-        .cloudinary-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(0, 149, 246, 0.9);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 600;
-            z-index: 5;
-        }
-
-        /* Styles pour mes publications */
-        .my-post-item {
-            border-bottom: 1px solid #262626;
-            padding: 12px 0;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .my-post-item:last-child {
-            border-bottom: none;
-        }
-
-        .my-post-thumbnail {
-            flex: 0 0 60px;
-        }
-
-        .my-post-thumbnail img {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-
-        .my-post-content {
-            flex: 1;
-        }
-
-        .my-post-text {
-            font-weight: 500;
-            color: #ffffff;
-            font-size: 14px;
-            margin-bottom: 4px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .my-post-time {
-            font-size: 12px;
-            color: #8e8e8e;
-        }
-
-        .my-post-delete {
-            background: #ed4956;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .my-post-delete:hover {
-            background: #c13584;
-        }
-
-        .my-post-delete:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -915,6 +1267,7 @@
             font-weight: 600;
         }
 
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             #mainApp {
                 padding: 0;
@@ -953,15 +1306,6 @@
                 margin: 20px;
             }
 
-            .my-post-thumbnail {
-                flex: 0 0 50px;
-            }
-
-            .my-post-thumbnail img {
-                width: 50px;
-                height: 50px;
-            }
-
             .search-container {
                 padding: 8px 16px;
             }
@@ -969,6 +1313,33 @@
             .stylish-loader {
                 width: 60px;
                 height: 60px;
+            }
+
+            .video-container {
+                height: 300px;
+            }
+
+            .file-input-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .upload-progress-container {
+                padding: 30px 20px;
+            }
+
+            .circular-progress {
+                width: 100px;
+                height: 100px;
+            }
+
+            .progress-percentage {
+                font-size: 20px;
+            }
+
+            .upload-icon {
+                font-size: 40px;
             }
         }
 
@@ -996,65 +1367,52 @@
         .comment-input:focus {
             box-shadow: 0 0 0 2px rgba(0, 149, 246, 0.2);
         }
-
-        /* Animation d'apparition des posts */
-        .publication.fade-in {
-            animation: fadeInPost 0.3s ease-out;
-        }
-
-        /* Skeleton loading pour les posts */
-        .post-skeleton {
-            background: #000000;
-            border-bottom: 1px solid #262626;
-            padding: 16px;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        .skeleton-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .skeleton-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #262626;
-            margin-right: 12px;
-        }
-
-        .skeleton-text {
-            background: #262626;
-            height: 12px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-        }
-
-        .skeleton-text.short {
-            width: 60%;
-        }
-
-        .skeleton-text.medium {
-            width: 80%;
-        }
-
-        .skeleton-text.long {
-            width: 100%;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.6;
-            }
-        }
     </style>
 </head>
 <body>
     <div id="particles"></div>
+
+    <!-- OVERLAY DE PROGRESSION D'UPLOAD -->
+    <div id="uploadProgressOverlay" class="upload-progress-overlay">
+        <div class="upload-progress-container">
+            <div class="upload-icon" id="uploadIcon">📤</div>
+            <div class="upload-title" id="uploadTitle">Téléchargement en cours...</div>
+            <div class="upload-subtitle" id="uploadSubtitle">Veuillez patienter pendant l'upload de votre fichier</div>
+            
+            <div class="upload-preview" id="uploadPreview"></div>
+            
+            <!-- Progression circulaire -->
+            <div class="circular-progress">
+                <svg viewBox="0 0 120 120">
+                    <defs>
+                        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#ff6b6b"/>
+                            <stop offset="50%" style="stop-color:#ff8e8e"/>
+                            <stop offset="100%" style="stop-color:#ff6b6b"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="60" cy="60" r="54" class="progress-circle-bg"/>
+                    <circle cx="60" cy="60" r="54" class="progress-circle" id="progressCircle" stroke-dasharray="0 339.292"/>
+                </svg>
+                <div class="progress-percentage" id="progressPercentage">0%</div>
+            </div>
+            
+            <!-- Progression linéaire -->
+            <div class="linear-progress">
+                <div class="linear-progress-bar" id="linearProgressBar"></div>
+            </div>
+            
+            <!-- Statistiques d'upload -->
+            <div class="upload-stats">
+                <div class="upload-speed" id="uploadSpeed">0 KB/s</div>
+                <div class="upload-eta" id="uploadEta">Calcul...</div>
+            </div>
+            
+            <div class="upload-size" id="uploadSize">0 MB / 0 MB</div>
+            
+            <button class="upload-cancel-btn" id="uploadCancelBtn">Annuler</button>
+        </div>
+    </div>
 
     <div id="registrationOverlay">
         <div class="registration-modal">
@@ -1083,7 +1441,6 @@
             <div class="status-indicator" id="statusIndicator">🔄 Connexion...</div>
         </div>
 
-        <!-- NOUVELLE BARRE DE RECHERCHE -->
         <div class="search-container">
             <div class="search-box">
                 <div class="search-icon">🔍</div>
@@ -1097,7 +1454,9 @@
             <textarea id="postText" placeholder="Partagez quelque chose..."></textarea>
             <div class="file-input-container">
                 <label for="fileInput" class="file-input-label">📷 Ajouter une image</label>
+                <label for="videoInput" class="file-input-label">🎥 Ajouter une vidéo</label>
                 <input type="file" id="fileInput" class="file-input" accept="image/*">
+                <input type="file" id="videoInput" class="file-input" accept="video/*">
                 <span id="fileName"></span>
             </div>
             <div id="mediaPreview" class="media-preview"></div>
@@ -1109,7 +1468,6 @@
         </div>
 
         <div id="feed" class="feed">
-            <!-- INDICATEUR DE CHARGEMENT STYLISÉ -->
             <div class="main-loading-container" id="mainLoadingContainer">
                 <div class="stylish-loader"></div>
                 <div class="loading-text">Veuillez patienter</div>
@@ -1131,7 +1489,7 @@
     </div>
 
     <script type="module">
-        console.log('🔰 Début du script principal Express Exchange - Version Améliorée');
+        console.log('🔰 Express Exchange - Version avec Upload Progress TikTok Style');
 
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
         import { 
@@ -1146,6 +1504,9 @@
             limit, 
             onSnapshot, 
             deleteDoc,
+            updateDoc,
+            arrayUnion,
+            arrayRemove,
             serverTimestamp,
             where
         } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
@@ -1172,23 +1533,255 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Variables globales
         let userData = null;
         let posts = [];
         let allUsers = [];
-        let allComments = [];
         let unsubscribePosts = null;
         let unsubscribeComments = null;
         let isOnline = navigator.onLine;
         let isAppInitialized = false;
         let isLoadingPosts = false;
         let searchTimeout = null;
+        let currentSelectedFile = null;
+        let videoAutoPlayObserver = null;
+        let currentPlayingVideo = null;
+        let commentsData = {};
+        let currentUploadController = null;
 
-        // Classe upload Cloudinary
+        // CLASSE DE GESTION DE LA PROGRESSION D'UPLOAD
+        class UploadProgressManager {
+            constructor() {
+                this.overlay = document.getElementById('uploadProgressOverlay');
+                this.icon = document.getElementById('uploadIcon');
+                this.title = document.getElementById('uploadTitle');
+                this.subtitle = document.getElementById('uploadSubtitle');
+                this.preview = document.getElementById('uploadPreview');
+                this.progressCircle = document.getElementById('progressCircle');
+                this.progressPercentage = document.getElementById('progressPercentage');
+                this.linearProgressBar = document.getElementById('linearProgressBar');
+                this.uploadSpeed = document.getElementById('uploadSpeed');
+                this.uploadEta = document.getElementById('uploadEta');
+                this.uploadSize = document.getElementById('uploadSize');
+                this.cancelBtn = document.getElementById('uploadCancelBtn');
+                
+                this.startTime = null;
+                this.lastLoaded = 0;
+                this.lastTime = 0;
+                this.speeds = [];
+                this.totalSize = 0;
+                
+                this.setupCancelButton();
+            }
+            
+            setupCancelButton() {
+                this.cancelBtn.addEventListener('click', () => {
+                    if (currentUploadController) {
+                        currentUploadController.abort();
+                        this.showError('Upload annulé par l\'utilisateur');
+                        setTimeout(() => this.hide(), 2000);
+                    }
+                });
+            }
+            
+            show(file, type) {
+                this.overlay.style.display = 'flex';
+                this.startTime = Date.now();
+                this.lastLoaded = 0;
+                this.lastTime = Date.now();
+                this.speeds = [];
+                this.totalSize = file.size;
+                
+                // Configuration selon le type
+                if (type === 'video') {
+                    this.icon.textContent = '🎥';
+                    this.title.textContent = 'Upload de la vidéo...';
+                    this.subtitle.textContent = 'Compression et téléchargement en cours';
+                } else {
+                    this.icon.textContent = '📷';
+                    this.title.textContent = 'Upload de l\'image...';
+                    this.subtitle.textContent = 'Optimisation et téléchargement en cours';
+                }
+                
+                // Prévisualisation
+                this.showPreview(file, type);
+                
+                // Reset des valeurs
+                this.updateProgress(0);
+                this.updateSize(0, this.totalSize);
+                this.updateSpeed(0);
+                this.updateEta(0);
+            }
+            
+            showPreview(file, type) {
+                const url = URL.createObjectURL(file);
+                if (type === 'video') {
+                    this.preview.innerHTML = `<video src="${url}" muted></video>`;
+                } else {
+                    this.preview.innerHTML = `<img src="${url}" alt="Preview">`;
+                }
+                this.preview.style.display = 'block';
+            }
+            
+            updateProgress(percent) {
+                // Progression circulaire
+                const circumference = 2 * Math.PI * 54; // rayon = 54
+                const offset = circumference - (percent / 100) * circumference;
+                this.progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                this.progressCircle.style.strokeDashoffset = offset;
+                
+                // Progression linéaire
+                this.linearProgressBar.style.width = percent + '%';
+                
+                // Pourcentage
+                this.progressPercentage.textContent = Math.round(percent) + '%';
+            }
+            
+            updateSize(loaded, total) {
+                const loadedMB = (loaded / (1024 * 1024)).toFixed(1);
+                const totalMB = (total / (1024 * 1024)).toFixed(1);
+                this.uploadSize.textContent = `${loadedMB} MB / ${totalMB} MB`;
+            }
+            
+            updateSpeed(bytesPerSecond) {
+                // Calculer la vitesse moyenne sur les 5 dernières mesures
+                this.speeds.push(bytesPerSecond);
+                if (this.speeds.length > 5) {
+                    this.speeds.shift();
+                }
+                
+                const avgSpeed = this.speeds.reduce((a, b) => a + b, 0) / this.speeds.length;
+                
+                if (avgSpeed > 1024 * 1024) {
+                    this.uploadSpeed.textContent = `${(avgSpeed / (1024 * 1024)).toFixed(1)} MB/s`;
+                } else if (avgSpeed > 1024) {
+                    this.uploadSpeed.textContent = `${(avgSpeed / 1024).toFixed(1)} KB/s`;
+                } else {
+                    this.uploadSpeed.textContent = `${avgSpeed.toFixed(0)} B/s`;
+                }
+            }
+            
+            updateEta(loaded) {
+                if (this.speeds.length === 0) {
+                    this.uploadEta.textContent = 'Calcul...';
+                    return;
+                }
+                
+                const avgSpeed = this.speeds.reduce((a, b) => a + b, 0) / this.speeds.length;
+                const remaining = this.totalSize - loaded;
+                const eta = remaining / avgSpeed;
+                
+                if (eta > 60) {
+                    const minutes = Math.floor(eta / 60);
+                    const seconds = Math.floor(eta % 60);
+                    this.uploadEta.textContent = `${minutes}m ${seconds}s restantes`;
+                } else {
+                    this.uploadEta.textContent = `${Math.floor(eta)}s restantes`;
+                }
+            }
+            
+            onProgress(event) {
+                if (event.lengthComputable) {
+                    const percent = (event.loaded / event.total) * 100;
+                    const currentTime = Date.now();
+                    const timeDiff = (currentTime - this.lastTime) / 1000; // en secondes
+                    const bytesDiff = event.loaded - this.lastLoaded;
+                    
+                    if (timeDiff > 0.5) { // Mise à jour toutes les 500ms
+                        const speed = bytesDiff / timeDiff;
+                        this.updateSpeed(speed);
+                        this.updateEta(event.loaded);
+                        this.lastTime = currentTime;
+                        this.lastLoaded = event.loaded;
+                    }
+                    
+                    this.updateProgress(percent);
+                    this.updateSize(event.loaded, event.total);
+                }
+            }
+            
+            showSuccess(message = 'Upload terminé avec succès !') {
+                this.icon.textContent = '✅';
+                this.title.textContent = 'Succès !';
+                this.title.className = 'upload-title upload-success';
+                this.subtitle.textContent = message;
+                this.updateProgress(100);
+                this.cancelBtn.style.display = 'none';
+                
+                // Cacher automatiquement après 2 secondes
+                setTimeout(() => this.hide(), 2000);
+            }
+            
+            showError(message = 'Erreur lors de l\'upload') {
+                this.icon.textContent = '❌';
+                this.title.textContent = 'Erreur';
+                this.title.className = 'upload-title upload-error';
+                this.subtitle.textContent = message;
+                this.cancelBtn.textContent = 'Fermer';
+            }
+            
+            hide() {
+                this.overlay.style.display = 'none';
+                this.preview.style.display = 'none';
+                this.preview.innerHTML = '';
+                this.title.className = 'upload-title';
+                this.cancelBtn.style.display = 'block';
+                this.cancelBtn.textContent = 'Annuler';
+            }
+        }
+
+        const uploadProgress = new UploadProgressManager();
+
+        // CLASSE VIDÉO CORRIGÉE - LIMITE 5 MINUTES
+        class VideoProcessor {
+            static async trimVideo(file, maxDuration = 300) { // 5 minutes = 300 secondes
+                return new Promise((resolve, reject) => {
+                    const video = document.createElement('video');
+                    
+                    video.onloadedmetadata = () => {
+                        const duration = video.duration;
+                        console.log(`📹 Durée vidéo: ${duration.toFixed(2)}s`);
+                        
+                        if (duration <= maxDuration) {
+                            console.log('✅ Vidéo acceptée (≤ 5 minutes)');
+                            resolve(file);
+                            return;
+                        }
+                        
+                        console.log(`❌ Vidéo trop longue: ${VideoProcessor.formatDuration(duration)}`);
+                        reject(new Error(`Vidéo trop longue (${VideoProcessor.formatDuration(duration)}). Limite: 5 minutes.`));
+                    };
+                    
+                    video.onerror = () => reject(new Error('Erreur lors du chargement de la vidéo'));
+                    video.src = URL.createObjectURL(file);
+                });
+            }
+            
+            static formatDuration(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = Math.floor(seconds % 60);
+                return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+            
+            static async getVideoDuration(file) {
+                return new Promise((resolve) => {
+                    const video = document.createElement('video');
+                    video.onloadedmetadata = () => {
+                        resolve(video.duration);
+                        URL.revokeObjectURL(video.src);
+                    };
+                    video.src = URL.createObjectURL(file);
+                });
+            }
+        }
+
+        // Classe upload Cloudinary avec progression
         class CloudinaryUploader {
             constructor(config) {
                 this.cloudName = config.cloudName;
                 this.uploadPreset = config.uploadPreset;
-                this.apiUrl = `https://api.cloudinary.com/v1_1/${this.cloudName}/image/upload`;
+                this.imageApiUrl = `https://api.cloudinary.com/v1_1/${this.cloudName}/image/upload`;
+                this.videoApiUrl = `https://api.cloudinary.com/v1_1/${this.cloudName}/video/upload`;
             }
 
             async uploadImage(file, options = {}) {
@@ -1197,45 +1790,317 @@
                 formData.append('upload_preset', this.uploadPreset);
                 formData.append('quality', 'auto');
                 formData.append('fetch_format', 'auto');
+                
                 if (options.maxWidth) {
                     formData.append('width', options.maxWidth);
                     formData.append('crop', 'scale');
                 }
-                try {
-                    const response = await fetch(this.apiUrl, { method: 'POST', body: formData });
-                    if (!response.ok) throw new Error(`Erreur upload: ${response.statusText}`);
-                    const result = await response.json();
-                    return {
-                        url: result.secure_url,
-                        publicId: result.public_id,
-                        width: result.width,
-                        height: result.height,
-                        format: result.format,
-                        bytes: result.bytes
-                    };
-                } catch (error) {
-                    console.error('Erreur upload Cloudinary:', error);
-                    throw error;
-                }
+                
+                return this.uploadWithProgress(this.imageApiUrl, formData, 'image');
             }
 
-            getOptimizedUrl(publicId, options = {}) {
-                const baseUrl = `https://res.cloudinary.com/${this.cloudName}/image/upload/`;
-                let transformations = [];
-                if (options.width) transformations.push(`w_${options.width}`);
-                if (options.height) transformations.push(`h_${options.height}`);
-                if (options.crop) transformations.push(`c_${options.crop}`);
-                if (options.quality) transformations.push(`q_${options.quality}`);
-                transformations.push('f_auto', 'q_auto');
-                const transformString = transformations.length > 0 ? transformations.join(',') + '/' : '';
-                return `${baseUrl}${transformString}${publicId}`;
+            async uploadVideo(file, options = {}) {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', this.uploadPreset);
+                formData.append('resource_type', 'video');
+                formData.append('quality', 'auto');
+                
+                return this.uploadWithProgress(this.videoApiUrl, formData, 'video');
+            }
+            
+            async uploadWithProgress(url, formData, type) {
+                return new Promise((resolve, reject) => {
+                    // Créer un contrôleur pour pouvoir annuler
+                    currentUploadController = new AbortController();
+                    
+                    const xhr = new XMLHttpRequest();
+                    
+                    // Gestion de la progression
+                    xhr.upload.addEventListener('progress', (event) => {
+                        uploadProgress.onProgress(event);
+                    });
+                    
+                    // Gestion de la réponse
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            try {
+                                const result = JSON.parse(xhr.responseText);
+                                const uploadResult = {
+                                    url: result.secure_url,
+                                    publicId: result.public_id,
+                                    width: result.width,
+                                    height: result.height,
+                                    format: result.format,
+                                    bytes: result.bytes
+                                };
+                                
+                                if (type === 'video') {
+                                    uploadResult.duration = result.duration;
+                                }
+                                
+                                uploadProgress.showSuccess();
+                                resolve(uploadResult);
+                            } catch (error) {
+                                uploadProgress.showError('Erreur lors du traitement du fichier');
+                                reject(error);
+                            }
+                        } else {
+                            uploadProgress.showError(`Erreur serveur: ${xhr.statusText}`);
+                            reject(new Error(`Erreur upload: ${xhr.statusText}`));
+                        }
+                    };
+                    
+                    // Gestion des erreurs
+                    xhr.onerror = function() {
+                        uploadProgress.showError('Erreur de connexion');
+                        reject(new Error('Erreur de connexion'));
+                    };
+                    
+                    // Gestion de l'annulation
+                    xhr.onabort = function() {
+                        uploadProgress.showError('Upload annulé');
+                        reject(new Error('Upload annulé'));
+                    };
+                    
+                    // Associer le contrôleur d'annulation
+                    currentUploadController.signal.addEventListener('abort', () => {
+                        xhr.abort();
+                    });
+                    
+                    // Démarrer l'upload
+                    xhr.open('POST', url);
+                    xhr.send(formData);
+                });
             }
         }
 
         const uploader = new CloudinaryUploader(cloudinaryConfig);
 
-        // NOUVELLE FONCTION : Affichage du loader stylisé
-        function showMainLoader(text = "Veuillez patienter", subtext = "Chargement des données en cours...<br>Connexion au serveur") {
+        // AUTO-PLAY VIDÉO STYLE TIKTOK
+        function initVideoAutoPlay() {
+            if (videoAutoPlayObserver) {
+                videoAutoPlayObserver.disconnect();
+            }
+
+            videoAutoPlayObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const videoContainer = entry.target;
+                    const video = videoContainer.querySelector('video');
+                    const autoPlayIndicator = videoContainer.querySelector('.video-auto-play-indicator');
+                    
+                    if (entry.isIntersecting && entry.intersectionRatio > 0.7) {
+                        // Plus de 70% de la vidéo est visible
+                        videoContainer.classList.add('in-viewport');
+                        videoContainer.classList.remove('out-of-viewport');
+                        
+                        if (video && video.paused) {
+                            // Arrêter toutes les autres vidéos
+                            pauseAllVideos();
+                            
+                            // Démarrer cette vidéo
+                            video.muted = true; // Auto-play silencieux
+                            video.currentTime = 0;
+                            
+                            video.play().then(() => {
+                                currentPlayingVideo = video;
+                                videoContainer.classList.remove('paused');
+                                
+                                // Afficher l'indicateur d'auto-play
+                                if (autoPlayIndicator) {
+                                    autoPlayIndicator.textContent = '🔥 Lecture auto';
+                                    autoPlayIndicator.classList.add('show');
+                                    setTimeout(() => {
+                                        autoPlayIndicator.classList.remove('show');
+                                    }, 3000);
+                                }
+                                
+                                console.log('▶️ Auto-play démarré');
+                            }).catch(error => {
+                                console.log('⚠️ Auto-play bloqué par le navigateur:', error);
+                            });
+                        }
+                    } else {
+                        // Vidéo hors vue
+                        videoContainer.classList.remove('in-viewport');
+                        videoContainer.classList.add('out-of-viewport');
+                        
+                        if (video && !video.paused) {
+                            video.pause();
+                            videoContainer.classList.add('paused');
+                            if (currentPlayingVideo === video) {
+                                currentPlayingVideo = null;
+                            }
+                            console.log('⏸️ Vidéo mise en pause (hors vue)');
+                        }
+                    }
+                });
+            }, {
+                threshold: [0.7], // 70% de la vidéo doit être visible
+                rootMargin: '-50px'
+            });
+
+            // Observer toutes les vidéos
+            document.querySelectorAll('.video-container').forEach(container => {
+                videoAutoPlayObserver.observe(container);
+            });
+        }
+
+        function pauseAllVideos() {
+            document.querySelectorAll('.video-player').forEach(video => {
+                if (!video.paused) {
+                    video.pause();
+                    const container = video.closest('.video-container');
+                    if (container) {
+                        container.classList.add('paused');
+                    }
+                }
+            });
+            currentPlayingVideo = null;
+        }
+
+        // GESTION DE LA PROGRESSION VIDÉO
+        function setupVideoControls(video, container) {
+            const progressBar = container.querySelector('.video-progress-bar');
+            const timeDisplay = container.querySelector('.video-time');
+            const playBtn = container.querySelector('.video-play-btn');
+            const volumeBtn = container.querySelector('.video-volume-btn');
+            
+            // Mise à jour de la progression
+            video.addEventListener('timeupdate', () => {
+                if (video.duration) {
+                    const progress = (video.currentTime / video.duration) * 100;
+                    if (progressBar) {
+                        progressBar.style.width = progress + '%';
+                    }
+                    if (timeDisplay) {
+                        timeDisplay.textContent = `${VideoProcessor.formatDuration(video.currentTime)} / ${VideoProcessor.formatDuration(video.duration)}`;
+                    }
+                }
+            });
+
+            // Contrôle play/pause
+            if (playBtn) {
+                playBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleVideoPlayback(container);
+                });
+            }
+
+            // Contrôle volume
+            if (volumeBtn) {
+                volumeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    video.muted = !video.muted;
+                    volumeBtn.textContent = video.muted ? '🔇' : '🔊';
+                });
+            }
+
+            // Click sur la vidéo pour play/pause
+            video.addEventListener('click', () => {
+                toggleVideoPlayback(container);
+            });
+
+            // Click sur overlay de play
+            const playOverlay = container.querySelector('.video-play-overlay');
+            if (playOverlay) {
+                playOverlay.addEventListener('click', () => {
+                    toggleVideoPlayback(container);
+                });
+            }
+        }
+
+        function toggleVideoPlayback(container) {
+            const video = container.querySelector('video');
+            if (!video) return;
+
+            if (video.paused) {
+                pauseAllVideos();
+                video.play().then(() => {
+                    currentPlayingVideo = video;
+                    container.classList.remove('paused');
+                }).catch(console.error);
+            } else {
+                video.pause();
+                container.classList.add('paused');
+                if (currentPlayingVideo === video) {
+                    currentPlayingVideo = null;
+                }
+            }
+        }
+
+        // FONCTIONS UTILITAIRES
+        function validateUserData(userData) {
+            if (!userData) return false;
+            const requiredFields = ['id', 'fullName', 'avatar'];
+            return requiredFields.every(field => userData[field] && userData[field].toString().trim() !== '');
+        }
+
+        function getUserData() {
+            try {
+                const sessionData = sessionStorage.getItem('expressExchangeUser');
+                const localData = localStorage.getItem('expressExchangeUser');
+                const dataToUse = sessionData || localData;
+                
+                if (!dataToUse) return null;
+                
+                const parsedData = JSON.parse(dataToUse);
+                return validateUserData(parsedData) ? parsedData : null;
+            } catch (error) {
+                console.error('❌ Erreur parsing userData:', error);
+                return null;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function getTimeAgo(date) {
+            if (!date) return 'Il y a un moment';
+            
+            const now = new Date();
+            const diff = now - date;
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (days > 0) return `Il y a ${days} jour${days > 1 ? 's' : ''}`;
+            if (hours > 0) return `Il y a ${hours} heure${hours > 1 ? 's' : ''}`;
+            if (minutes > 0) return `Il y a ${minutes} minute${minutes > 1 ? 's' : ''}`;
+            return 'À l\'instant';
+        }
+
+        function updateConnectionStatus() {
+            const statusIndicator = document.getElementById('statusIndicator');
+            if (statusIndicator) {
+                statusIndicator.textContent = isOnline ? '🟢 Connecté' : '🔴 Hors ligne';
+                statusIndicator.className = isOnline ? 'status-indicator status-connected' : 'status-indicator status-disconnected';
+            }
+        }
+
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            if (!particles) return;
+            
+            const isMobile = window.innerWidth < 768;
+            const particleCount = isMobile ? 5 : 15;
+            particles.innerHTML = '';
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        function showMainLoader(text = "Veuillez patienter", subtext = "Chargement des données...") {
             const container = document.getElementById('mainLoadingContainer');
             if (container) {
                 container.querySelector('.loading-text').textContent = text;
@@ -1251,28 +2116,130 @@
             }
         }
 
-        // NOUVELLE FONCTION : Skeleton loading pour les posts
-        function showPostsSkeleton() {
-            const feed = document.getElementById('feed');
-            const skeletonHTML = Array(3).fill().map(() => `
-                <div class="post-skeleton">
-                    <div class="skeleton-header">
-                        <div class="skeleton-avatar"></div>
-                        <div>
-                            <div class="skeleton-text short"></div>
-                            <div class="skeleton-text short" style="width: 40%; margin-top: 4px;"></div>
-                        </div>
-                    </div>
-                    <div class="skeleton-text long"></div>
-                    <div class="skeleton-text medium"></div>
-                    <div class="skeleton-text short" style="margin-top: 16px;"></div>
-                </div>
-            `).join('');
-            
-            feed.innerHTML = skeletonHTML;
+        // GESTION DE L'INSCRIPTION
+        function hideRegistrationForm() {
+            const overlay = document.getElementById('registrationOverlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
         }
 
-        // FONCTIONS DE RECHERCHE AMÉLIORÉES
+        function showRegistrationForm() {
+            const overlay = document.getElementById('registrationOverlay');
+            const mainApp = document.getElementById('mainApp');
+            if (overlay) overlay.style.display = 'flex';
+            if (mainApp) mainApp.style.display = 'none';
+            isAppInitialized = false;
+            userData = null;
+        }
+
+        function checkUserRegistration() {
+            userData = getUserData();
+            if (userData) {
+                console.log('✅ Utilisateur connecté:', userData.fullName);
+                hideRegistrationForm();
+                showMainApp();
+            } else {
+                console.log('👤 Aucun utilisateur, affichage inscription');
+                showRegistrationForm();
+            }
+        }
+
+        function showMainApp() {
+            if (isAppInitialized) return;
+            
+            if (!validateUserData(userData)) {
+                showRegistrationForm();
+                return;
+            }
+
+            const mainApp = document.getElementById('mainApp');
+            if (mainApp) {
+                mainApp.style.display = 'block';
+            }
+
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `Bienvenue ${userData.fullName} 👋`;
+            }
+
+            updateConnectionStatus();
+            initializeSearch();
+            loadPosts();
+            loadUsers();
+            isAppInitialized = true;
+            
+            console.log('🎉 App initialisée pour:', userData.fullName);
+        }
+
+        // INSCRIPTION
+        const registrationForm = document.getElementById('registrationForm');
+        if (registrationForm) {
+            registrationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const submitBtn = e.target.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+                const nom = document.getElementById('nom').value.trim();
+                const prenom = document.getElementById('prenom').value.trim();
+                const contact = document.getElementById('contact').value.trim();
+                
+                if (!nom || !prenom || !contact) {
+                    alert('Veuillez remplir tous les champs');
+                    return;
+                }
+                
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<div class="loading-spinner"></div>Inscription...';
+                
+                try {
+                    const timestamp = Date.now();
+                    const randomSuffix = Math.random().toString(36).substr(2, 9);
+                    const userId = `user_${timestamp}_${randomSuffix}`;
+                    
+                    userData = {
+                        id: userId,
+                        nom: nom,
+                        prenom: prenom,
+                        contact: contact,
+                        fullName: `${prenom} ${nom}`,
+                        avatar: `${prenom[0].toUpperCase()}${nom[0].toUpperCase()}`,
+                        registeredAt: new Date().toISOString(),
+                        username: `${prenom.toLowerCase()}.${nom.toLowerCase()}`
+                    };
+                    
+                    // Sauvegarde locale
+                    const userDataString = JSON.stringify(userData);
+                    sessionStorage.setItem('expressExchangeUser', userDataString);
+                    localStorage.setItem('expressExchangeUser', userDataString);
+                    
+                    // Sauvegarde Firebase
+                    if (isOnline) {
+                        try {
+                            await setDoc(doc(db, 'users', userData.id), {
+                                ...userData,
+                                createdAt: serverTimestamp(),
+                                lastActive: serverTimestamp()
+                            });
+                            console.log('☁️ Utilisateur sauvé dans Firebase');
+                        } catch (firebaseError) {
+                            console.warn('⚠️ Erreur Firebase (mode local):', firebaseError);
+                        }
+                    }
+                    
+                    hideRegistrationForm();
+                    showMainApp();
+                    
+                } catch (error) {
+                    console.error('❌ Erreur inscription:', error);
+                    alert(`Erreur: ${error.message}`);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
+        }
+
+        // RECHERCHE
         function initializeSearch() {
             const searchInput = document.getElementById('searchInput');
             const searchClear = document.getElementById('searchClear');
@@ -1284,56 +2251,31 @@
                 const query = e.target.value.trim();
                 
                 if (query.length > 0) {
-                    searchClear.style.display = 'block';
+                    if (searchClear) searchClear.style.display = 'block';
                     
-                    // Debounce pour éviter trop de requêtes
                     clearTimeout(searchTimeout);
                     searchTimeout = setTimeout(() => {
                         performSearch(query);
                     }, 300);
                 } else {
+                    if (searchClear) searchClear.style.display = 'none';
+                    if (searchResults) searchResults.style.display = 'none';
+                }
+            });
+
+            if (searchClear) {
+                searchClear.addEventListener('click', function() {
+                    searchInput.value = '';
                     searchClear.style.display = 'none';
-                    searchResults.style.display = 'none';
-                }
-            });
+                    if (searchResults) searchResults.style.display = 'none';
+                    searchInput.focus();
+                });
+            }
 
-            searchClear.addEventListener('click', function() {
-                searchInput.value = '';
-                searchClear.style.display = 'none';
-                searchResults.style.display = 'none';
-                searchInput.focus();
-            });
-
-            // Fermer les résultats si on clique ailleurs
             document.addEventListener('click', function(e) {
-                if (!e.target.closest('.search-box')) {
+                if (!e.target.closest('.search-box') && searchResults) {
                     searchResults.style.display = 'none';
                 }
-            });
-
-            // Navigation au clavier
-            searchInput.addEventListener('keydown', function(e) {
-                const items = searchResults.querySelectorAll('.search-result-item');
-                let selectedIndex = Array.from(items).findIndex(item => item.classList.contains('selected'));
-
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
-                    updateSelection(items, selectedIndex);
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    selectedIndex = Math.max(selectedIndex - 1, 0);
-                    updateSelection(items, selectedIndex);
-                } else if (e.key === 'Enter' && selectedIndex >= 0) {
-                    e.preventDefault();
-                    items[selectedIndex].click();
-                }
-            });
-        }
-
-        function updateSelection(items, selectedIndex) {
-            items.forEach((item, index) => {
-                item.classList.toggle('selected', index === selectedIndex);
             });
         }
 
@@ -1341,12 +2283,10 @@
             const searchResults = document.getElementById('searchResults');
             if (!searchResults) return;
 
-            searchResults.innerHTML = '<div style="padding: 12px; color: #8e8e8e;">🔍 Recherche en cours...</div>';
+            searchResults.innerHTML = '<div style="padding: 12px; color: #8e8e8e;">🔍 Recherche...</div>';
             searchResults.style.display = 'block';
 
             try {
-                const results = [];
-                
                 // Recherche dans les publications
                 const postResults = posts.filter(post => 
                     post.text?.toLowerCase().includes(query.toLowerCase()) ||
@@ -1360,12 +2300,11 @@
                     user.prenom?.toLowerCase().includes(query.toLowerCase())
                 ).slice(0, 3);
 
-                // Affichage des résultats
                 let resultsHTML = '';
 
                 if (userResults.length > 0) {
                     resultsHTML += userResults.map(user => `
-                        <div class="search-result-item" onclick="showUserProfile('${user.id}')">
+                        <div class="search-result-item" onclick="scrollToUser('${user.id}')">
                             <div class="search-result-user">
                                 <div class="search-result-avatar">${user.avatar || 'U'}</div>
                                 <div class="search-result-info">
@@ -1387,7 +2326,7 @@
                                 <div class="search-result-avatar">${post.avatar || 'U'}</div>
                                 <div class="search-result-info">
                                     <h4>${escapeHtml(post.author || 'Utilisateur')}</h4>
-                                    <p>Publication • ${escapeHtml((post.text || '').substring(0, 50))}${post.text?.length > 50 ? '...' : ''}</p>
+                                    <p>${post.videoUrl ? '🎥 Vidéo' : '📝 Publication'} • ${escapeHtml((post.text || '').substring(0, 50))}${post.text?.length > 50 ? '...' : ''}</p>
                                 </div>
                             </div>
                         </div>
@@ -1395,27 +2334,19 @@
                 }
 
                 if (resultsHTML === '') {
-                    resultsHTML = '<div class="no-search-results">Aucun résultat trouvé pour "' + escapeHtml(query) + '"</div>';
+                    resultsHTML = '<div class="no-search-results">Aucun résultat pour "' + escapeHtml(query) + '"</div>';
                 }
 
                 searchResults.innerHTML = resultsHTML;
 
             } catch (error) {
-                console.error('Erreur lors de la recherche:', error);
+                console.error('❌ Erreur recherche:', error);
                 searchResults.innerHTML = '<div style="padding: 12px; color: #ed4956;">Erreur lors de la recherche</div>';
             }
         }
 
-        // Fonction pour faire défiler vers une publication
         window.scrollToPost = function(postId) {
-            const searchResults = document.getElementById('searchResults');
-            const searchInput = document.getElementById('searchInput');
-            
-            if (searchResults) searchResults.style.display = 'none';
-            if (searchInput) searchInput.value = '';
-            const searchClear = document.getElementById('searchClear');
-            if (searchClear) searchClear.style.display = 'none';
-
+            closeSearchResults();
             const postElement = document.querySelector(`[data-post-id="${postId}"]`);
             if (postElement) {
                 postElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1426,277 +2357,94 @@
             }
         };
 
-        // Fonction pour afficher le profil utilisateur (placeholder)
-        window.showUserProfile = function(userId) {
-            const searchResults = document.getElementById('searchResults');
-            const searchInput = document.getElementById('searchInput');
-            
-            if (searchResults) searchResults.style.display = 'none';
-            if (searchInput) searchInput.value = '';
-            const searchClear = document.getElementById('searchClear');
-            if (searchClear) searchClear.style.display = 'none';
-
+        window.scrollToUser = function(userId) {
+            closeSearchResults();
             alert('Profil utilisateur - Fonctionnalité à venir !');
         };
 
-        function validateUserData(userData) {
-            console.log('🔍 Validation userData:', userData);
-            if (!userData) {
-                console.error('❌ userData est null ou undefined');
-                return false;
-            }
-            const requiredFields = ['id', 'fullName', 'avatar'];
-            for (const field of requiredFields) {
-                if (!userData[field] || userData[field].toString().trim() === '') {
-                    console.error(`❌ Champ manquant ou vide: ${field}`, userData[field]);
-                    return false;
-                }
-            }
-            console.log('✅ userData valide');
-            return true;
+        function closeSearchResults() {
+            const searchResults = document.getElementById('searchResults');
+            const searchInput = document.getElementById('searchInput');
+            const searchClear = document.getElementById('searchClear');
+            
+            if (searchResults) searchResults.style.display = 'none';
+            if (searchInput) searchInput.value = '';
+            if (searchClear) searchClear.style.display = 'none';
         }
 
-        function getUserData() {
+        // CHARGEMENT DES DONNÉES
+        async function loadPostLikes() {
             try {
-                const sessionData = sessionStorage.getItem('expressExchangeUser');
-                const localData = localStorage.getItem('expressExchangeUser');
-                const dataToUse = sessionData || localData;
-                if (!dataToUse) {
-                    console.warn('⚠️ Aucune donnée utilisateur trouvée');
-                    return null;
-                }
-                const parsedData = JSON.parse(dataToUse);
-                if (!validateUserData(parsedData)) {
-                    console.error('❌ Données utilisateur invalides, suppression...');
-                    sessionStorage.removeItem('expressExchangeUser');
-                    localStorage.removeItem('expressExchangeUser');
-                    return null;
-                }
-                return parsedData;
+                const likesSnapshot = await getDocs(collection(db, 'likes'));
+                const likesData = {};
+                
+                likesSnapshot.forEach((doc) => {
+                    const like = doc.data();
+                    if (!likesData[like.postId]) {
+                        likesData[like.postId] = {
+                            count: 0,
+                            users: []
+                        };
+                    }
+                    likesData[like.postId].count++;
+                    likesData[like.postId].users.push(like.userId);
+                });
+                
+                // Mettre à jour les posts avec les likes
+                posts.forEach(post => {
+                    const postLikes = likesData[post.id] || { count: 0, users: [] };
+                    post.likesCount = postLikes.count;
+                    post.likedByCurrentUser = postLikes.users.includes(userData?.id);
+                });
+                
+                console.log('✅ Likes synchronisés');
             } catch (error) {
-                console.error('❌ Erreur parsing données utilisateur:', error);
-                sessionStorage.removeItem('expressExchangeUser');
-                localStorage.removeItem('expressExchangeUser');
-                return null;
+                console.error('❌ Erreur chargement likes:', error);
             }
         }
 
-        function updateConnectionStatus() {
-            const statusIndicator = document.getElementById('statusIndicator');
-            if (statusIndicator) {
-                statusIndicator.textContent = isOnline ? '🟢 Connecté' : '🔴 Hors ligne';
-                statusIndicator.className = isOnline ? 'status-indicator status-connected' : 'status-indicator status-disconnected';
-            }
-        }
-
-        function createParticles() {
-            const particles = document.getElementById('particles');
-            if (!particles) return;
-            const isMobile = window.innerWidth < 768;
-            const particleCount = isMobile ? 5 : 15;
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                particles.appendChild(particle);
-            }
-        }
-
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        const handleResize = debounce(function() {
-            const particles = document.getElementById('particles');
-            if (particles) {
-                particles.innerHTML = '';
-                createParticles();
-            }
-        }, 300);
-
-        window.addEventListener('resize', handleResize);
-
-        function hideRegistrationForm() {
-            const overlay = document.getElementById('registrationOverlay');
-            if (overlay) {
-                overlay.style.display = 'none';
-                console.log('🚫 Formulaire d\'inscription masqué');
-            }
-        }
-
-        function showRegistrationForm() {
-            console.log('🔰 Affichage du formulaire d\'inscription');
-            const overlay = document.getElementById('registrationOverlay');
-            const mainApp = document.getElementById('mainApp');
-            if (overlay) overlay.style.display = 'flex';
-            if (mainApp) mainApp.style.display = 'none';
-            isAppInitialized = false;
-            userData = null;
-        }
-
-        function checkUserRegistration() {
-            console.log('🔍 Vérification de l\'inscription utilisateur...');
-            userData = getUserData();
-            if (userData) {
-                console.log('✅ Utilisateur trouvé:', userData.fullName);
-                hideRegistrationForm();
-                showMainApp();
-            } else {
-                console.log('👤 Aucun utilisateur valide trouvé, affichage du formulaire');
-                showRegistrationForm();
-            }
-        }
-
-        function showMainApp() {
-            if (isAppInitialized) {
-                console.log('⚠️ App déjà initialisée, ignoré');
-                return;
-            }
-            console.log('🎯 Affichage de l\'application principale...');
-            if (!validateUserData(userData)) {
-                console.error('❌ userData invalide lors de showMainApp, retour au formulaire');
-                showRegistrationForm();
-                return;
-            }
-            const mainApp = document.getElementById('mainApp');
-            if (mainApp) {
-                mainApp.style.display = 'block';
-                console.log('✅ App principale affichée');
-            } else {
-                console.error('❌ Élément mainApp introuvable');
-                return;
-            }
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            if (welcomeMessage) {
-                welcomeMessage.textContent = `Bienvenue ${userData.fullName} 👋`;
-                console.log('👋 Message de bienvenue mis à jour');
-            }
-            updateConnectionStatus();
-            initializeSearch();
-            loadPosts();
-            loadUsers();
-            loadComments();
-            isAppInitialized = true;
-            console.log('🎉 Application initialisée avec succès pour:', userData.fullName);
-        }
-
-        // Déconnexion
-        window.logout = function() {
-            console.log('🚪 Déconnexion...');
-            sessionStorage.removeItem('expressExchangeUser');
-            localStorage.removeItem('expressExchangeUser');
-            userData = null;
-            isAppInitialized = false;
-            if (unsubscribePosts) {
-                unsubscribePosts();
-            }
-            if (unsubscribeComments) {
-                unsubscribeComments();
-            }
-            location.reload();
-        };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Initialisation de l\'application...');
-            createParticles();
-            updateConnectionStatus();
-            setTimeout(() => {
-                checkUserRegistration();
-            }, 100);
-        });
-
-        const registrationForm = document.getElementById('registrationForm');
-        if (registrationForm) {
-            registrationForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                console.log('📋 Soumission du formulaire d\'inscription...');
-                const submitBtn = e.target.querySelector('.submit-btn');
-                const originalText = submitBtn.textContent;
-                const nom = document.getElementById('nom').value.trim();
-                const prenom = document.getElementById('prenom').value.trim();
-                const contact = document.getElementById('contact').value.trim();
-                if (!nom || !prenom || !contact) {
-                    alert('Veuillez remplir tous les champs');
-                    return;
+        async function loadPostComments() {
+            try {
+                if (unsubscribeComments) {
+                    unsubscribeComments();
                 }
-                if (nom.length < 2 || prenom.length < 2) {
-                    alert('Le nom et prénom doivent contenir au moins 2 caractères');
-                    return;
-                }
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<div class="loading-spinner"></div>Inscription...';
-                try {
-                    const timestamp = Date.now();
-                    const randomSuffix = Math.random().toString(36).substr(2, 9);
-                    const userId = `user_${timestamp}_${randomSuffix}`;
-                    userData = {
-                        id: userId,
-                        nom: nom,
-                        prenom: prenom,
-                        contact: contact,
-                        fullName: `${prenom} ${nom}`,
-                        avatar: `${prenom[0].toUpperCase()}${nom[0].toUpperCase()}`,
-                        registeredAt: new Date().toISOString(),
-                        username: `${prenom.toLowerCase()}.${nom.toLowerCase()}`,
-                        email: `${contact}@placeholder.com`
-                    };
-                    console.log('👤 Création utilisateur:', userData);
-                    if (!validateUserData(userData)) {
-                        throw new Error('Données utilisateur invalides après création');
-                    }
-                    try {
-                        const userDataString = JSON.stringify(userData);
-                        sessionStorage.setItem('expressExchangeUser', userDataString);
-                        localStorage.setItem('expressExchangeUser', userDataString);
-                        console.log('💾 Données sauvegardées localement');
-                    } catch (storageError) {
-                        console.error('❌ Erreur sauvegarde locale:', storageError);
-                        throw new Error('Impossible de sauvegarder les données localement');
-                    }
-                    if (isOnline) {
-                        try {
-                            await setDoc(doc(db, 'users', userData.id), {
-                                ...userData,
-                                createdAt: serverTimestamp(),
-                                lastActive: serverTimestamp()
-                            });
-                            console.log('☁️ Utilisateur sauvegardé dans Firestore');
-                        } catch (firebaseError) {
-                            console.warn('⚠️ Erreur sauvegarde Firestore (continuera en local):', firebaseError);
+
+                const commentsQuery = query(
+                    collection(db, 'comments'),
+                    orderBy('timestamp', 'asc')
+                );
+
+                unsubscribeComments = onSnapshot(commentsQuery, (snapshot) => {
+                    commentsData = {};
+                    
+                    snapshot.forEach((doc) => {
+                        const comment = { id: doc.id, ...doc.data() };
+                        if (!commentsData[comment.postId]) {
+                            commentsData[comment.postId] = [];
                         }
-                    } else {
-                        console.log('📡 Mode hors-ligne, sauvegarde locale uniquement');
-                    }
-                    hideRegistrationForm();
-                    showMainApp();
-                } catch (error) {
-                    console.error('❌ Erreur lors de l\'inscription:', error);
-                    alert(`Erreur lors de l'inscription: ${error.message}`);
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
-                    userData = null;
-                    sessionStorage.removeItem('expressExchangeUser');
-                    localStorage.removeItem('expressExchangeUser');
-                }
-            });
+                        commentsData[comment.postId].push(comment);
+                    });
+
+                    // Mettre à jour les compteurs
+                    posts.forEach(post => {
+                        const postComments = commentsData[post.id] || [];
+                        post.commentsCount = postComments.length;
+                    });
+
+                    console.log('✅ Commentaires synchronisés');
+                    renderPosts();
+                });
+
+            } catch (error) {
+                console.error('❌ Erreur chargement commentaires:', error);
+            }
         }
 
-        // FONCTION AMÉLIORÉE : Chargement des publications avec loader
         function loadPosts() {
             if (isLoadingPosts) return;
             isLoadingPosts = true;
 
-            console.log('📊 Début du chargement des publications...');
+            console.log('📊 Chargement des publications...');
             showMainLoader("Chargement des publications", "Récupération des dernières actualités...");
 
             if (unsubscribePosts) {
@@ -1709,8 +2457,8 @@
                 limit(50)
             );
 
-            unsubscribePosts = onSnapshot(postsQuery, (snapshot) => {
-                console.log('📝 Mise à jour des publications reçue');
+            unsubscribePosts = onSnapshot(postsQuery, async (snapshot) => {
+                console.log('📝 Publications mises à jour');
                 posts = [];
                 snapshot.forEach((doc) => {
                     const post = { id: doc.id, ...doc.data() };
@@ -1719,11 +2467,21 @@
 
                 console.log(`✅ ${posts.length} publications chargées`);
                 
-                // Petit délai pour permettre de voir le loader
+                // Charger les likes et commentaires
+                await Promise.all([
+                    loadPostLikes(),
+                    loadPostComments()
+                ]);
+                
                 setTimeout(() => {
                     renderPosts();
                     hideMainLoader();
                     isLoadingPosts = false;
+                    
+                    // Initialiser l'auto-play après le rendu
+                    setTimeout(() => {
+                        initVideoAutoPlay();
+                    }, 300);
                 }, 500);
 
             }, (error) => {
@@ -1735,233 +2493,36 @@
                             <h3>Erreur de chargement</h3>
                             <p>Impossible de charger les publications</p>
                             <button onclick="location.reload()" style="margin-top: 12px; padding: 8px 16px; background: #0095f6; color: white; border: none; border-radius: 6px; cursor: pointer;">Réessayer</button>
-                        </div>
-                    `;
+                        </div>`;
                 }
                 hideMainLoader();
                 isLoadingPosts = false;
             });
         }
 
-        // NOUVELLE FONCTION : Chargement des utilisateurs pour la recherche
         async function loadUsers() {
             try {
-                console.log('👥 Chargement des utilisateurs pour la recherche...');
+                console.log('👥 Chargement des utilisateurs...');
                 const usersSnapshot = await getDocs(collection(db, 'users'));
                 allUsers = [];
                 usersSnapshot.forEach((doc) => {
-                    const user = { id: doc.id, ...doc.data() };
-                    allUsers.push(user);
+                    allUsers.push({ id: doc.id, ...doc.data() });
                 });
-                console.log(`✅ ${allUsers.length} utilisateurs chargés pour la recherche`);
+                console.log(`✅ ${allUsers.length} utilisateurs chargés`);
             } catch (error) {
                 console.error('❌ Erreur chargement utilisateurs:', error);
             }
         }
 
-        // NOUVELLE FONCTION : Chargement des commentaires
-        function loadComments() {
-            console.log('💬 Chargement des commentaires...');
-            
-            if (unsubscribeComments) {
-                unsubscribeComments();
-            }
-
-            const commentsQuery = query(
-                collection(db, 'comments'), 
-                orderBy('timestamp', 'desc')
-            );
-
-            unsubscribeComments = onSnapshot(commentsQuery, (snapshot) => {
-                console.log('💬 Mise à jour des commentaires reçue');
-                allComments = [];
-                snapshot.forEach((doc) => {
-                    const comment = { id: doc.id, ...doc.data() };
-                    allComments.push(comment);
-                });
-
-                console.log(`✅ ${allComments.length} commentaires chargés`);
-                
-                // Mettre à jour les compteurs de commentaires dans les posts
-                updateCommentsCount();
-
-            }, (error) => {
-                console.error('❌ Erreur chargement commentaires:', error);
-            });
-        }
-
-        // FONCTION : Mise à jour des compteurs de commentaires
-        function updateCommentsCount() {
-            posts.forEach(post => {
-                const postComments = allComments.filter(comment => comment.postId === post.id);
-                post.commentsCount = postComments.length;
-            });
-        }
-
-        const publishBtn = document.getElementById('publishBtn');
-        if (publishBtn) {
-            publishBtn.addEventListener('click', async function() {
-                if (!validateUserData(userData)) {
-                    console.error('❌ Tentative de publication avec userData invalide');
-                    alert('Erreur: Données utilisateur invalides. Veuillez vous reconnecter.');
-                    showRegistrationForm();
-                    return;
-                }
-                const text = document.getElementById('postText').value.trim();
-                const fileInput = document.getElementById('fileInput');
-                const publishBtn = document.getElementById('publishBtn');
-                if (!text && !fileInput.files[0]) {
-                    alert('Veuillez ajouter du texte ou une image');
-                    return;
-                }
-                if (fileInput.files[0] && !fileInput.files[0].type.startsWith('image/')) {
-                    alert("Seules les images sont autorisées.");
-                    return;
-                }
-                publishBtn.disabled = true;
-                publishBtn.innerHTML = '<div class="loading-spinner"></div>Publication...';
-                try {
-                    const postData = {
-                        author: userData.fullName,
-                        authorId: userData.id,
-                        avatar: userData.avatar,
-                        text: text || '',
-                        timestamp: serverTimestamp(),
-                        likesCount: 0,
-                        commentsCount: 0,
-                        imageUrl: null,
-                        imagePublicId: null,
-                        createdBy: userData.id,
-                        userValidated: true
-                    };
-                    console.log('📝 Données de publication:', {
-                        authorId: postData.authorId,
-                        author: postData.author,
-                        textLength: text.length,
-                        hasImage: !!fileInput.files[0]
-                    });
-                    if (!postData.authorId || postData.authorId.trim() === '') {
-                        throw new Error('authorId manquant ou vide');
-                    }
-                    if (fileInput.files[0]) {
-                        const file = fileInput.files[0];
-                        publishBtn.innerHTML = '<div class="loading-spinner"></div>Upload image...';
-                        const uploadResult = await uploader.uploadImage(file, {
-                            maxWidth: 1200
-                        });
-                        postData.imageUrl = uploadResult.url;
-                        postData.imagePublicId = uploadResult.publicId;
-                        postData.imageWidth = uploadResult.width;
-                        postData.imageHeight = uploadResult.height;
-                        postData.imageSize = uploadResult.bytes;
-                    }
-                    publishBtn.innerHTML = '<div class="loading-spinner"></div>Publication...';
-                    try {
-                        const docRef = await addDoc(collection(db, 'posts'), postData);
-                        console.log('✅ Publication créée avec ID:', docRef.id);
-                    } catch (firestoreError) {
-                        console.error('❌ Erreur Firestore détaillée:', firestoreError);
-                        throw new Error(`Erreur Firestore: ${firestoreError.message}`);
-                    }
-                    clearPostForm();
-                } catch (error) {
-                    console.error('❌ Erreur lors de la publication:', error);
-                    alert(`Erreur lors de la publication: ${error.message}`);
-                } finally {
-                    resetPublishButton();
-                }
-            });
-        }
-
-        function resetPublishButton() {
-            const publishBtn = document.getElementById('publishBtn');
-            if (publishBtn) {
-                publishBtn.disabled = false;
-                publishBtn.textContent = 'Publier';
-            }
-        }
-
-        const fileInput = document.getElementById('fileInput');
-        if (fileInput) {
-            fileInput.addEventListener('change', async function(e) {
-                const file = e.target.files[0];
-                const fileName = document.getElementById('fileName');
-                const preview = document.getElementById('mediaPreview');
-                if (file) {
-                    if (fileName) fileName.textContent = file.name;
-                    if (fileName) fileName.style.color = '#8e8e8e';
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        if (preview) {
-                            preview.innerHTML = `<img src="${event.target.result}" style="max-width: 150px; max-height: 150px; border-radius: 8px; object-fit: cover;">`;
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    if (fileName) fileName.textContent = '';
-                    if (preview) preview.innerHTML = '';
-                }
-            });
-        }
-
-        function clearPostForm() {
-            const postText = document.getElementById('postText');
-            const fileInput = document.getElementById('fileInput');
-            const fileName = document.getElementById('fileName');
-            const preview = document.getElementById('mediaPreview');
-            
-            if (postText) postText.value = '';
-            if (fileInput) fileInput.value = '';
-            if (fileName) fileName.textContent = '';
-            if (preview) preview.innerHTML = '';
-        }
-
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text.toString();
-            return div.innerHTML;
-        }
-
-        function formatTimestamp(timestamp) {
-            if (!timestamp) return 'À l\'instant';
-            
-            let date;
-            if (timestamp.toDate) {
-                date = timestamp.toDate();
-            } else if (timestamp instanceof Date) {
-                date = timestamp;
-            } else {
-                date = new Date(timestamp);
-            }
-            
-            const now = new Date();
-            const diffMs = now - date;
-            const diffSeconds = Math.floor(diffMs / 1000);
-            const diffMinutes = Math.floor(diffSeconds / 60);
-            const diffHours = Math.floor(diffMinutes / 60);
-            const diffDays = Math.floor(diffHours / 24);
-
-            if (diffSeconds < 60) return 'À l\'instant';
-            if (diffMinutes < 60) return `${diffMinutes}min`;
-            if (diffHours < 24) return `${diffHours}h`;
-            if (diffDays < 7) return `${diffDays}j`;
-            
-            return date.toLocaleDateString('fr-FR', {
-                day: 'numeric',
-                month: 'short'
-            });
-        }
-
+        // RENDU DES PUBLICATIONS
         function renderPosts() {
-            console.log('🎨 Rendu des publications...');
             const feed = document.getElementById('feed');
-            
             if (!feed) return;
-            
+
             if (posts.length === 0) {
                 feed.innerHTML = `
                     <div class="empty-state">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📝</div>
                         <h3>Aucune publication</h3>
                         <p>Soyez le premier à partager quelque chose !</p>
                     </div>
@@ -1970,383 +2531,667 @@
             }
 
             const postsHTML = posts.map(post => {
-                const imageHTML = post.imageUrl ? `
-                    <div class="image-link">
-                        <img src="${post.imageUrl}" 
-                             alt="Image partagée" 
-                             onclick="openImageModal('${post.imageUrl}')"
-                             loading="lazy">
-                        <div class="cloudinary-badge">📸</div>
-                    </div>
-                ` : '';
+                const commentsForPost = commentsData[post.id] || [];
+                return createPostHTML(post, commentsForPost);
+            }).join('');
 
-                return `
-                    <div class="publication fade-in" data-post-id="${post.id}">
-                        <div class="pub-header">
-                            <div class="pub-avatar">${post.avatar || 'U'}</div>
-                            <div class="pub-info">
-                                <div class="pub-username">${escapeHtml(post.author || 'Utilisateur')}</div>
-                                <div class="pub-time">${formatTimestamp(post.timestamp)}</div>
+            feed.innerHTML = postsHTML;
+            
+            // Réattacher les événements
+            attachPostEvents();
+            
+            console.log(`✅ ${posts.length} publications rendues`);
+        }
+
+        function createPostHTML(post, comments = []) {
+            const timeAgo = getTimeAgo(post.timestamp?.toDate ? post.timestamp.toDate() : new Date(post.timestamp));
+            const isLiked = post.likedByCurrentUser;
+            const likesCount = post.likesCount || 0;
+            const commentsCount = comments.length;
+
+            let mediaHTML = '';
+            if (post.videoUrl) {
+                mediaHTML = `
+                    <div class="video-container paused" data-post-id="${post.id}">
+                        <video 
+                            class="video-player" 
+                            preload="metadata"
+                            muted
+                            loop
+                            playsinline
+                            data-duration="${post.videoDuration || 0}"
+                        >
+                            <source src="${post.videoUrl}" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture vidéo.
+                        </video>
+                        <div class="video-overlay">
+                            <div class="video-play-overlay">▶️</div>
+                            <div class="video-duration-badge">${post.videoDuration ? VideoProcessor.formatDuration(post.videoDuration) : ''}</div>
+                            <div class="video-auto-play-indicator">🔥 Lecture auto</div>
+                        </div>
+                        <div class="video-controls">
+                            <div class="video-progress">
+                                <div class="video-progress-bar"></div>
                             </div>
-                        </div>
-                        
-                        <div class="pub-text">${escapeHtml(post.text || '').replace(/\n/g, '<br>')}</div>
-                        
-                        ${imageHTML}
-                        
-                        <div class="pub-actions">
-                            <button class="action-btn ${post.likedByCurrentUser ? 'liked' : ''}" 
-                                    onclick="toggleLike('${post.id}')"
-                                    data-post-id="${post.id}">
-                                <span>${post.likedByCurrentUser ? '❤️' : '🤍'}</span>
-                                <span>${post.likesCount || 0}</span>
-                            </button>
-                            <button class="action-btn" onclick="toggleComments('${post.id}')">
-                                <span>💬</span>
-                                <span>${post.commentsCount || 0}</span>
-                            </button>
-                            <button class="action-btn" onclick="sharePost('${post.id}')">
-                                <span>📤</span>
-                                <span>Partager</span>
-                            </button>
-                        </div>
-                        
-                        <div class="comments-section" id="comments-${post.id}" style="display: none;">
-                            <div id="comments-list-${post.id}"></div>
-                            <div class="comment-form">
-                                <input type="text" 
-                                       class="comment-input" 
-                                       id="comment-input-${post.id}"
-                                       placeholder="Ajouter un commentaire..."
-                                       onkeypress="handleCommentKeypress(event, '${post.id}')">
-                                <button class="comment-btn" onclick="addComment('${post.id}')">Publier</button>
+                            <div class="video-controls-row">
+                                <button class="video-play-btn">▶️</button>
+                                <div class="video-time">0:00 / 0:00</div>
+                                <button class="video-volume-btn">🔇</button>
                             </div>
                         </div>
                     </div>
                 `;
-            }).join('');
+            } else if (post.imageUrl) {
+                mediaHTML = `
+                    <div class="image-link">
+                        <img src="${post.imageUrl}" alt="Publication" loading="lazy" onclick="openImageModal('${post.imageUrl}')">
+                    </div>
+                `;
+            }
 
-            feed.innerHTML = postsHTML;
-            console.log(`✅ ${posts.length} publications rendues`);
+            const commentsHTML = comments.slice(0, 3).map(comment => `
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="comment-avatar">${comment.authorAvatar || 'U'}</div>
+                        <div class="comment-username">${escapeHtml(comment.authorName || 'Utilisateur')}</div>
+                        <div class="comment-time">${getTimeAgo(comment.timestamp?.toDate ? comment.timestamp.toDate() : new Date(comment.timestamp))}</div>
+                    </div>
+                    <div class="comment-text">${escapeHtml(comment.text || '')}</div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="publication" data-post-id="${post.id}">
+                    <div class="pub-header">
+                        <div class="pub-avatar">${post.avatar || 'U'}</div>
+                        <div class="pub-info">
+                            <div class="pub-username">${escapeHtml(post.author || 'Utilisateur')}</div>
+                            <div class="pub-time">${timeAgo}</div>
+                        </div>
+                        <button class="action-btn" onclick="showPostMenu('${post.id}')" style="margin-left: auto;">⋯</button>
+                    </div>
+
+                    ${post.text ? `<div class="pub-text">${escapeHtml(post.text).replace(/\n/g, '<br>')}</div>` : ''}
+                    
+                    ${mediaHTML}
+
+                    <div class="pub-actions">
+                        <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${post.id}')">
+                            ${isLiked ? '❤️' : '🤍'} ${likesCount}
+                        </button>
+                        <button class="action-btn" onclick="toggleComments('${post.id}')">
+                            💬 ${commentsCount}
+                        </button>
+                        <button class="action-btn" onclick="sharePost('${post.id}')">
+                            📤 Partager
+                        </button>
+                    </div>
+
+                    <div class="comments-section" id="comments-${post.id}" style="display: none;">
+                        ${commentsHTML}
+                        ${commentsCount > 3 ? `
+                            <button class="action-btn" onclick="loadMoreComments('${post.id}')" style="margin: 8px 0;">
+                                Voir les ${commentsCount - 3} autres commentaires...
+                            </button>
+                        ` : ''}
+                        <div class="comment-form">
+                            <input type="text" class="comment-input" placeholder="Écrivez un commentaire..." onkeypress="handleCommentKeyPress(event, '${post.id}')">
+                            <button class="comment-btn" onclick="submitComment('${post.id}')">Publier</button>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
-        // FONCTIONS D'INTERACTION
-        window.openImageModal = function(imageUrl) {
-            const modal = document.getElementById('modalImageView');
-            const modalImg = document.getElementById('modalImageBig');
-            if (modal && modalImg) {
-                modalImg.src = imageUrl;
-                modal.style.display = 'flex';
+        function attachPostEvents() {
+            // Configurer les contrôles vidéo pour chaque vidéo
+            document.querySelectorAll('.video-container').forEach(container => {
+                const video = container.querySelector('video');
+                if (video) {
+                    setupVideoControls(video, container);
+                }
                 
-                // Fermer avec échap ou clic
-                const closeModal = function(e) {
-                    if (e.key === 'Escape' || e.target === modal) {
-                        modal.style.display = 'none';
-                        document.removeEventListener('keydown', closeModal);
-                    }
-                };
-                
-                modal.addEventListener('click', closeModal);
-                document.addEventListener('keydown', closeModal);
-            }
-        };
+                // Observer pour l'auto-play
+                if (videoAutoPlayObserver) {
+                    videoAutoPlayObserver.observe(container);
+                }
+            });
+        }
 
+        // GESTION DES LIKES
         window.toggleLike = async function(postId) {
-            if (!validateUserData(userData)) {
-                alert('Erreur: Veuillez vous reconnecter');
+            if (!userData || !userData.id) {
+                alert('Vous devez être connecté pour aimer une publication');
                 return;
             }
-
-            const likeBtn = document.querySelector(`button[data-post-id="${postId}"]`);
-            if (!likeBtn) return;
-
-            const originalDisabled = likeBtn.disabled;
-            likeBtn.disabled = true;
 
             try {
                 const post = posts.find(p => p.id === postId);
                 if (!post) return;
 
                 const isCurrentlyLiked = post.likedByCurrentUser;
-                const newLikesCount = isCurrentlyLiked 
-                    ? Math.max(0, (post.likesCount || 0) - 1)
-                    : (post.likesCount || 0) + 1;
+                const likeId = `${postId}_${userData.id}`;
 
-                // Mise à jour optimiste de l'UI
-                post.likedByCurrentUser = !isCurrentlyLiked;
-                post.likesCount = newLikesCount;
-                
-                const heartIcon = likeBtn.querySelector('span:first-child');
-                const countSpan = likeBtn.querySelector('span:last-child');
-                
-                if (heartIcon) heartIcon.textContent = post.likedByCurrentUser ? '❤️' : '🤍';
-                if (countSpan) countSpan.textContent = newLikesCount;
-                likeBtn.classList.toggle('liked', post.likedByCurrentUser);
-
-                // Sauvegarde en base (sans attendre)
-                if (isOnline) {
-                    console.log(`${isCurrentlyLiked ? '💔' : '❤️'} Like ${isCurrentlyLiked ? 'retiré' : 'ajouté'} pour le post ${postId}`);
+                if (isCurrentlyLiked) {
+                    // Retirer le like
+                    await deleteDoc(doc(db, 'likes', likeId));
+                    post.likesCount = Math.max(0, (post.likesCount || 0) - 1);
+                    post.likedByCurrentUser = false;
+                } else {
+                    // Ajouter le like
+                    await setDoc(doc(db, 'likes', likeId), {
+                        postId: postId,
+                        userId: userData.id,
+                        userName: userData.fullName,
+                        timestamp: serverTimestamp()
+                    });
+                    post.likesCount = (post.likesCount || 0) + 1;
+                    post.likedByCurrentUser = true;
                 }
 
+                // Mettre à jour l'affichage
+                updateLikeButton(postId, post.likedByCurrentUser, post.likesCount);
+
             } catch (error) {
-                console.error('❌ Erreur lors du like:', error);
-                // Rollback en cas d'erreur
-                renderPosts();
-            } finally {
-                likeBtn.disabled = originalDisabled;
+                console.error('❌ Erreur like:', error);
+                alert('Erreur lors de la mise à jour du like');
             }
         };
 
-        window.toggleComments = async function(postId) {
-            const commentsSection = document.getElementById(`comments-${postId}`);
-            if (!commentsSection) return;
-
-            const isVisible = commentsSection.style.display !== 'none';
-            commentsSection.style.display = isVisible ? 'none' : 'block';
-
-            if (!isVisible) {
-                // Charger les commentaires
-                await loadCommentsForPost(postId);
-            }
-        };
-
-        async function loadCommentsForPost(postId) {
-            const commentsList = document.getElementById(`comments-list-${postId}`);
-            if (!commentsList) return;
-
-            try {
-                commentsList.innerHTML = '<div style="padding: 8px; color: #8e8e8e; font-size: 12px;">💬 Chargement des commentaires...</div>';
-                
-                // Filtrer les commentaires pour ce post
-                const postComments = allComments.filter(comment => comment.postId === postId);
-                
-                if (postComments.length === 0) {
-                    commentsList.innerHTML = '<div style="padding: 8px; color: #8e8e8e; font-size: 12px;">Aucun commentaire pour le moment</div>';
-                    return;
-                }
-
-                // Trier par timestamp (plus récent en dernier)
-                postComments.sort((a, b) => {
-                    const timeA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp || 0);
-                    const timeB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp || 0);
-                    return timeA - timeB;
-                });
-
-                const commentsHTML = postComments.map(comment => `
-                    <div class="comment">
-                        <div class="comment-header">
-                            <div class="comment-avatar">${comment.avatar || 'U'}</div>
-                            <div class="comment-username">${escapeHtml(comment.author || 'Utilisateur')}</div>
-                            <div class="comment-time">${formatTimestamp(comment.timestamp)}</div>
-                        </div>
-                        <div class="comment-text">${escapeHtml(comment.text || '')}</div>
-                    </div>
-                `).join('');
-
-                commentsList.innerHTML = commentsHTML;
-
-            } catch (error) {
-                console.error('❌ Erreur chargement commentaires:', error);
-                commentsList.innerHTML = '<div style="padding: 8px; color: #ed4956; font-size: 12px;">Erreur de chargement</div>';
+        function updateLikeButton(postId, isLiked, count) {
+            const likeBtn = document.querySelector(`[data-post-id="${postId}"] .pub-actions .action-btn`);
+            if (likeBtn) {
+                likeBtn.className = `action-btn ${isLiked ? 'liked' : ''}`;
+                likeBtn.innerHTML = `${isLiked ? '❤️' : '🤍'} ${count}`;
             }
         }
 
-        window.handleCommentKeypress = function(event, postId) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                addComment(postId);
+        // GESTION DES COMMENTAIRES
+        window.toggleComments = function(postId) {
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            if (commentsSection) {
+                const isVisible= commentsSection.style.display !== 'none';
+                commentsSection.style.display = isVisible ? 'none' : 'block';
+                
+                if (!isVisible) {
+                    const input = commentsSection.querySelector('.comment-input');
+                    if (input) input.focus();
+                }
             }
         };
 
-        window.addComment = async function(postId) {
-            if (!validateUserData(userData)) {
-                alert('Erreur: Veuillez vous reconnecter');
+        window.handleCommentKeyPress = function(event, postId) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                submitComment(postId);
+            }
+        };
+
+        window.submitComment = async function(postId) {
+            if (!userData || !userData.id) {
+                alert('Vous devez être connecté pour commenter');
                 return;
             }
 
-            const commentInput = document.getElementById(`comment-input-${postId}`);
-            if (!commentInput) return;
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            if (!commentsSection) return;
 
-            const commentText = commentInput.value.trim();
-            if (!commentText) {
-                alert('Veuillez écrire un commentaire');
+            const input = commentsSection.querySelector('.comment-input');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            const btn = commentsSection.querySelector('.comment-btn');
+            const originalText = btn.textContent;
+            
+            try {
+                btn.disabled = true;
+                btn.textContent = '...';
+                
+                await addDoc(collection(db, 'comments'), {
+                    postId: postId,
+                    text: text,
+                    authorId: userData.id,
+                    authorName: userData.fullName,
+                    authorAvatar: userData.avatar,
+                    timestamp: serverTimestamp()
+                });
+
+                input.value = '';
+                console.log('✅ Commentaire ajouté');
+
+            } catch (error) {
+                console.error('❌ Erreur commentaire:', error);
+                alert('Erreur lors de l\'ajout du commentaire');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        };
+
+        window.loadMoreComments = function(postId) {
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            if (!commentsSection) return;
+
+            const allComments = commentsData[postId] || [];
+            const commentsHTML = allComments.map(comment => `
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="comment-avatar">${comment.authorAvatar || 'U'}</div>
+                        <div class="comment-username">${escapeHtml(comment.authorName || 'Utilisateur')}</div>
+                        <div class="comment-time">${getTimeAgo(comment.timestamp?.toDate ? comment.timestamp.toDate() : new Date(comment.timestamp))}</div>
+                    </div>
+                    <div class="comment-text">${escapeHtml(comment.text || '')}</div>
+                </div>
+            `).join('');
+
+            const commentForm = commentsSection.querySelector('.comment-form');
+            commentsSection.innerHTML = commentsHTML + (commentForm ? commentForm.outerHTML : '');
+        };
+
+        // GESTION DES PUBLICATIONS
+        window.showPostMenu = function(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+
+            const isOwner = post.authorId === userData?.id;
+            let menu = 'Options:\n';
+            
+            if (isOwner) {
+                menu += '1. Supprimer\n';
+            }
+            menu += '2. Signaler\n3. Copier le lien';
+
+            const choice = prompt(menu);
+            
+            if (choice === '1' && isOwner) {
+                deletePost(postId);
+            } else if (choice === '2') {
+                alert('Publication signalée');
+            } else if (choice === '3') {
+                navigator.clipboard.writeText(`${window.location.origin}#post-${postId}`)
+                    .then(() => alert('Lien copié'))
+                    .catch(() => alert('Impossible de copier le lien'));
+            }
+        };
+
+        async function deletePost(postId) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cette publication ?')) {
                 return;
             }
 
             try {
-                const commentData = {
-                    postId: postId,
-                    author: userData.fullName,
-                    authorId: userData.id,
-                    avatar: userData.avatar,
-                    text: commentText,
-                    timestamp: serverTimestamp()
-                };
-
-                console.log('💬 Ajout commentaire:', commentData);
+                await deleteDoc(doc(db, 'posts', postId));
                 
-                // Sauvegarder le commentaire en base
-                const docRef = await addDoc(collection(db, 'comments'), commentData);
-                console.log('✅ Commentaire créé avec ID:', docRef.id);
-
-                // Vider le champ
-                commentInput.value = '';
-
-                // Les commentaires seront automatiquement mis à jour via onSnapshot
+                // Supprimer les likes associés
+                const likesSnapshot = await getDocs(
+                    query(collection(db, 'likes'), where('postId', '==', postId))
+                );
+                const deletePromises = likesSnapshot.docs.map(doc => deleteDoc(doc.ref));
+                
+                // Supprimer les commentaires associés
+                const commentsSnapshot = await getDocs(
+                    query(collection(db, 'comments'), where('postId', '==', postId))
+                );
+                deletePromises.push(...commentsSnapshot.docs.map(doc => deleteDoc(doc.ref)));
+                
+                await Promise.all(deletePromises);
+                
+                console.log('✅ Publication supprimée');
+                alert('Publication supprimée avec succès');
 
             } catch (error) {
-                console.error('❌ Erreur ajout commentaire:', error);
-                alert('Erreur lors de l\'ajout du commentaire');
+                console.error('❌ Erreur suppression:', error);
+                alert('Erreur lors de la suppression');
             }
-        };
+        }
 
         window.sharePost = function(postId) {
             const post = posts.find(p => p.id === postId);
             if (!post) return;
 
+            const text = `Découvrez cette publication sur Express Exchange:\n\n"${post.text || 'Contenu multimédia'}"`;
+            
             if (navigator.share) {
                 navigator.share({
-                    title: `Publication de ${post.author}`,
-                    text: post.text || 'Regardez cette publication sur Express Exchange',
-                    url: window.location.href
-                }).catch(err => console.log('Erreur partage:', err));
+                    title: 'Express Exchange',
+                    text: text,
+                    url: `${window.location.origin}#post-${postId}`
+                }).catch(console.error);
             } else {
-                // Fallback: copier le lien
-                const textToCopy = `${post.text || 'Publication'} - par ${post.author} sur Express Exchange`;
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    alert('Contenu copié dans le presse-papiers !');
-                }).catch(() => {
-                    alert('Impossible de copier le contenu');
-                });
+                navigator.clipboard.writeText(`${text}\n\n${window.location.origin}#post-${postId}`)
+                    .then(() => alert('Lien copié dans le presse-papiers'))
+                    .catch(() => {
+                        prompt('Copiez ce lien:', `${window.location.origin}#post-${postId}`);
+                    });
             }
         };
 
-        // GESTION DES PUBLICATIONS PERSONNELLES
-        const showMyPostsBtn = document.getElementById('showMyPostsBtn');
-        if (showMyPostsBtn) {
-            showMyPostsBtn.addEventListener('click', function() {
-                showMyPostsModal();
-            });
+        // GESTION DES MODALES
+        window.openImageModal = function(imageUrl) {
+            const modal = document.getElementById('modalImageView');
+            const img = document.getElementById('modalImageBig');
+            if (modal && img) {
+                img.src = imageUrl;
+                modal.style.display = 'flex';
+                modal.onclick = closeImageModal;
+            }
+        };
+
+        window.closeImageModal = function() {
+            const modal = document.getElementById('modalImageView');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // PUBLICATION DE CONTENU
+        const publishBtn = document.getElementById('publishBtn');
+        const postText = document.getElementById('postText');
+        const fileInput = document.getElementById('fileInput');
+        const videoInput = document.getElementById('videoInput');
+        const mediaPreview = document.getElementById('mediaPreview');
+        const fileName = document.getElementById('fileName');
+
+        // Gestion des fichiers
+        if (fileInput) {
+            fileInput.addEventListener('change', handleFileSelect);
         }
 
-        function showMyPostsModal() {
-            if (!validateUserData(userData)) {
-                alert('Erreur: Veuillez vous reconnecter');
-                return;
-            }
-
-            const modal = document.getElementById('myPostsModal');
-            const myPostsList = document.getElementById('myPostsList');
-            
-            if (!modal || !myPostsList) return;
-            
-            modal.style.display = 'flex';
-            
-            // Filtrer les posts de l'utilisateur actuel
-            const myPosts = posts.filter(post => post.authorId === userData.id);
-            
-            if (myPosts.length === 0) {
-                myPostsList.innerHTML = `
-                    <div class="empty-state">
-                        <h3>Aucune publication</h3>
-                        <p>Vous n'avez pas encore publié de contenu</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const myPostsHTML = myPosts.map(post => `
-                <div class="my-post-item">
-                    ${post.imageUrl ? `
-                        <div class="my-post-thumbnail">
-                            <img src="${post.imageUrl}" alt="Miniature">
-                        </div>
-                    ` : ''}
-                    <div class="my-post-content">
-                        <div class="my-post-text">${escapeHtml(post.text || 'Publication avec image')}</div>
-                        <div class="my-post-time">${formatTimestamp(post.timestamp)} • ${post.likesCount || 0} j'aime</div>
-                    </div>
-                    <button class="my-post-delete" onclick="deleteMyPost('${post.id}')" ${!isOnline ? 'disabled' : ''}>
-                        🗑️ Supprimer
-                    </button>
-                </div>
-            `).join('');
-
-            myPostsList.innerHTML = myPostsHTML;
+        if (videoInput) {
+            videoInput.addEventListener('change', handleVideoSelect);
         }
 
-        const closeMyPostsModal = document.getElementById('closeMyPostsModal');
-        if (closeMyPostsModal) {
-            closeMyPostsModal.addEventListener('click', function() {
-                const modal = document.getElementById('myPostsModal');
-                if (modal) modal.style.display = 'none';
-            });
+        async function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Vérifier la taille (max 10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('Le fichier est trop volumineux (max 10MB)');
+                event.target.value = '';
+                return;
+            }
+
+            currentSelectedFile = { file, type: 'image' };
+            showMediaPreview(file, 'image');
         }
 
-        window.deleteMyPost = async function(postId) {
-            if (!validateUserData(userData)) {
-                alert('Erreur: Veuillez vous reconnecter');
-                return;
-            }
+        async function handleVideoSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-            if (!confirm('Êtes-vous sûr de vouloir supprimer cette publication ?')) {
+            // Vérifier la taille (max 50MB)
+            if (file.size > 50 * 1024 * 1024) {
+                alert('La vidéo est trop volumineuse (max 50MB)');
+                event.target.value = '';
                 return;
-            }
-
-            const deleteBtn = document.querySelector(`button[onclick="deleteMyPost('${postId}')"]`);
-            if (deleteBtn) {
-                deleteBtn.disabled = true;
-                deleteBtn.innerHTML = '🔄 Suppression...';
             }
 
             try {
-                await deleteDoc(doc(db, 'posts', postId));
-                console.log('✅ Publication supprimée:', postId);
+                // Vérifier la durée (max 5 minutes)
+                await VideoProcessor.trimVideo(file, 300);
                 
-                // Mise à jour locale
-                posts = posts.filter(post => post.id !== postId);
-                renderPosts();
-                showMyPostsModal(); // Rafraîchir la modal
+                const duration = await VideoProcessor.getVideoDuration(file);
+                currentSelectedFile = { file, type: 'video', duration };
+                showMediaPreview(file, 'video', duration);
                 
             } catch (error) {
-                console.error('❌ Erreur suppression:', error);
-                alert('Erreur lors de la suppression');
-                
-                if (deleteBtn) {
-                    deleteBtn.disabled = false;
-                    deleteBtn.innerHTML = '🗑️ Supprimer';
-                }
+                alert(error.message);
+                event.target.value = '';
+                currentSelectedFile = null;
             }
+        }
+
+        function showMediaPreview(file, type, duration = null) {
+            if (!mediaPreview || !fileName) return;
+
+            const url = URL.createObjectURL(file);
+            fileName.textContent = `📎 ${file.name}`;
+
+            if (type === 'video') {
+                const durationText = duration ? VideoProcessor.formatDuration(duration) : '';
+                const warningClass = duration > 300 ? 'warning' : '';
+                
+                mediaPreview.innerHTML = `
+                    <div class="video-preview">
+                        <video controls muted>
+                            <source src="${url}" type="video/mp4">
+                        </video>
+                        <div class="video-duration ${warningClass}">${durationText}</div>
+                        <div class="video-processing">
+                            <div class="processing-spinner"></div>
+                            Traitement...
+                        </div>
+                    </div>
+                    <button onclick="clearMediaPreview()" style="margin-top: 10px; padding: 6px 12px; background: #ed4956; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        ❌ Supprimer
+                    </button>
+                `;
+            } else {
+                mediaPreview.innerHTML = `
+                    <div style="max-width: 250px;">
+                        <img src="${url}" style="width: 100%; height: auto; border-radius: 8px;" alt="Aperçu">
+                    </div>
+                    <button onclick="clearMediaPreview()" style="margin-top: 10px; padding: 6px 12px; background: #ed4956; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        ❌ Supprimer
+                    </button>
+                `;
+            }
+        }
+
+        window.clearMediaPreview = function() {
+            if (mediaPreview) mediaPreview.innerHTML = '';
+            if (fileName) fileName.textContent = '';
+            if (fileInput) fileInput.value = '';
+            if (videoInput) videoInput.value = '';
+            currentSelectedFile = null;
         };
 
-        // GESTION ÉVÉNEMENTS RÉSEAU
-        window.addEventListener('online', function() {
-            console.log('🌐 Connexion rétablie');
+        // Publication
+        if (publishBtn) {
+            publishBtn.addEventListener('click', async function() {
+                const text = postText?.value?.trim();
+                
+                if (!text && !currentSelectedFile) {
+                    alert('Veuillez saisir du texte ou sélectionner un fichier');
+                    return;
+                }
+
+                if (!userData) {
+                    alert('Vous devez être connecté pour publier');
+                    return;
+                }
+
+                const originalText = publishBtn.textContent;
+                publishBtn.disabled = true;
+                publishBtn.innerHTML = '<div class="loading-spinner"></div>Publication...';
+
+                try {
+                    let mediaUrl = null;
+                    let videoDuration = null;
+
+                    if (currentSelectedFile) {
+                        console.log(`📤 Upload ${currentSelectedFile.type}...`);
+                        
+                        // Afficher la progression d'upload
+                        uploadProgress.show(currentSelectedFile.file, currentSelectedFile.type);
+
+                        if (currentSelectedFile.type === 'video') {
+                            const result = await uploader.uploadVideo(currentSelectedFile.file);
+                            mediaUrl = result.url;
+                            videoDuration = result.duration || currentSelectedFile.duration;
+                        } else {
+                            const result = await uploader.uploadImage(currentSelectedFile.file, { maxWidth: 1080 });
+                            mediaUrl = result.url;
+                        }
+
+                        console.log('✅ Upload terminé:', mediaUrl);
+                    }
+
+                    // Créer la publication
+                    const postData = {
+                        text: text || '',
+                        author: userData.fullName,
+                        authorId: userData.id,
+                        avatar: userData.avatar,
+                        timestamp: serverTimestamp()
+                    };
+
+                    if (currentSelectedFile?.type === 'video') {
+                        postData.videoUrl = mediaUrl;
+                        postData.videoDuration = videoDuration;
+                    } else if (currentSelectedFile?.type === 'image') {
+                        postData.imageUrl = mediaUrl;
+                    }
+
+                    await addDoc(collection(db, 'posts'), postData);
+
+                    // Reset du formulaire
+                    if (postText) postText.value = '';
+                    clearMediaPreview();
+                    
+                    console.log('✅ Publication créée');
+
+                } catch (error) {
+                    console.error('❌ Erreur publication:', error);
+                    uploadProgress.showError(error.message);
+                    setTimeout(() => uploadProgress.hide(), 3000);
+                } finally {
+                    publishBtn.disabled = false;
+                    publishBtn.textContent = originalText;
+                }
+            });
+        }
+
+        // MES PUBLICATIONS
+        const showMyPostsBtn = document.getElementById('showMyPostsBtn');
+        const myPostsModal = document.getElementById('myPostsModal');
+        const closeMyPostsModal = document.getElementById('closeMyPostsModal');
+
+        if (showMyPostsBtn) {
+            showMyPostsBtn.addEventListener('click', showMyPosts);
+        }
+
+        if (closeMyPostsModal) {
+            closeMyPostsModal.addEventListener('click', () => {
+                if (myPostsModal) myPostsModal.style.display = 'none';
+            });
+        }
+
+        async function showMyPosts() {
+            if (!userData || !myPostsModal) return;
+
+            myPostsModal.style.display = 'flex';
+            const myPostsList = document.getElementById('myPostsList');
+            
+            if (myPostsList) {
+                myPostsList.innerHTML = '<div style="text-align: center; padding: 20px;">Chargement...</div>';
+
+                try {
+                    const myPosts = posts.filter(post => post.authorId === userData.id);
+                    
+                    if (myPosts.length === 0) {
+                        myPostsList.innerHTML = `
+                            <div class="empty-state">
+                                <div style="font-size: 48px; margin-bottom: 16px;">📝</div>
+                                <h3>Aucune publication</h3>
+                                <p>Vous n'avez pas encore publié de contenu</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    const postsHTML = myPosts.map(post => {
+                        const timeAgo = getTimeAgo(post.timestamp?.toDate ? post.timestamp.toDate() : new Date(post.timestamp));
+                        
+                        return `
+                            <div style="background: #262626; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="color: #8e8e8e; font-size: 12px;">${timeAgo}</span>
+                                    <button onclick="deletePost('${post.id}')" style="background: #ed4956; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                        🗑️ Supprimer
+                                    </button>
+                                </div>
+                                ${post.text ? `<p style="color: #ffffff; margin-bottom: 8px; line-height: 1.4;">${escapeHtml(post.text)}</p>` : ''}
+                                ${post.videoUrl ? `<p style="color: #0095f6; font-size: 14px;">🎥 Vidéo (${post.videoDuration ? VideoProcessor.formatDuration(post.videoDuration) : 'Durée inconnue'})</p>` : ''}
+                                ${post.imageUrl ? `<p style="color: #0095f6; font-size: 14px;">📷 Image</p>` : ''}
+                                <div style="display: flex; gap: 16px; margin-top: 8px;">
+                                    <span style="color: #8e8e8e; font-size: 13px;">❤️ ${post.likesCount || 0}</span>
+                                    <span style="color: #8e8e8e; font-size: 13px;">💬 ${post.commentsCount || 0}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    myPostsList.innerHTML = postsHTML;
+
+                } catch (error) {
+                    console.error('❌ Erreur mes publications:', error);
+                    myPostsList.innerHTML = '<div style="text-align: center; color: #ed4956; padding: 20px;">Erreur de chargement</div>';
+                }
+            }
+        }
+
+        // GESTION DES ÉVÉNEMENTS GLOBAUX
+        window.addEventListener('online', () => {
             isOnline = true;
             updateConnectionStatus();
-            
-            // Recharger les données si nécessaire
-            if (isAppInitialized && posts.length === 0) {
-                loadPosts();
+            console.log('🟢 Connexion rétablie');
+        });
+
+        window.addEventListener('offline', () => {
+            isOnline = false;
+            updateConnectionStatus();
+            console.log('🔴 Connexion perdue');
+        });
+
+        // Fermeture des modales avec Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeImageModal();
+                if (myPostsModal) myPostsModal.style.display = 'none';
             }
         });
 
-        window.addEventListener('offline', function() {
-            console.log('📡 Connexion perdue');
-            isOnline = false;
-            updateConnectionStatus();
+        // Pause vidéos quand on change d'onglet
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                pauseAllVideos();
+            }
         });
 
-        // GESTION ERREURS GLOBALES
-        window.addEventListener('error', function(event) {
-            console.error('❌ Erreur globale:', event.error);
+        // NETTOYAGE
+        window.addEventListener('beforeunload', () => {
+            if (unsubscribePosts) unsubscribePosts();
+            if (unsubscribeComments) unsubscribeComments();
+            if (videoAutoPlayObserver) videoAutoPlayObserver.disconnect();
         });
 
-        window.addEventListener('unhandledrejection', function(event) {
-            console.error('❌ Promise rejetée:', event.reason);
+        // INITIALISATION
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Express Exchange - Initialisation');
+            createParticles();
+            checkUserRegistration();
+            
+            // Auto-créer des particules périodiquement
+            setInterval(createParticles, 10000);
         });
 
-        console.log('🎉 Script Express Exchange chargé avec succès');
+        // Si la page est déjà chargée
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('🚀 Express Exchange - Initialisation (ready state)');
+                createParticles();
+                checkUserRegistration();
+            });
+        } else {
+            console.log('🚀 Express Exchange - Initialisation immédiate');
+            createParticles();
+            checkUserRegistration();
+        }
+
+        console.log('✅ Express Exchange - Script chargé');
     </script>
 </body>
 </html>
